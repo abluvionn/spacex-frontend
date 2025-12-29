@@ -1,0 +1,34 @@
+.feature-banner {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.feature-banner-1 {
+  background-image: linear-gradient(
+      rgba(40, 66, 131, 0.7) 100%,
+      rgba(40, 66, 131, 0.7) 100%
+    ),
+    url('/images/feature-1.jpg');
+}
+.feature-banner-2 {
+  background-image: linear-gradient(
+      rgba(40, 66, 131, 0.7) 100%,
+      rgba(40, 66, 131, 0.7) 100%
+    ),
+    url('/images/feature-2.jpg');
+}
+.feature-banner-3 {
+  background-image: linear-gradient(
+      rgba(40, 66, 131, 0.7) 100%,
+      rgba(40, 66, 131, 0.7) 100%
+    ),
+    url('/images/feature-3.jpg');
+}
+.feature-banner-4 {
+  background-image: linear-gradient(
+      rgba(40, 66, 131, 0.7) 100%,
+      rgba(40, 66, 131, 0.7) 100%
+    ),
+    url('/images/feature-4.jpg');
+}

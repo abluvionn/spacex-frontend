@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='p-0 py-5 flex-col lg:flex-row gap-7 sticky top-0 border lg:px-30 flex items-center justify-between bg-white lg:py-8 shadow-md z-10'>
+    <nav className='p-0 py-5 flex-col lg:flex-row gap-7 sticky top-0 lg:px-30 flex items-center justify-between bg-white lg:py-8 shadow-md z-10'>
       <div className='relative w-full lg:w-fit flex justify-center items-center'>
         <Link href='/'>
           <Image
