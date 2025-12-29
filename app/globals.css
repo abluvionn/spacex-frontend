@@ -1,1 +1,21 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+body,
+html {
+  font-family: 'Arial', sans-serif;
+}
+
+@theme inline {
+  --font-poppins: 'Poppins', sans-serif;
+  --color-primary: #1a2b56;
+  --color-accent: #d71920;
+}
+
+@layer components {
+  .nav-link {
+    @apply font-poppins font-medium text-primary hover:underline underline-offset-2;
+  }
+  .btn-base {
+    @apply rounded-md font-poppins font-semibold text-white bg-accent hover:bg-accent/90 transition;
+  }
+}
