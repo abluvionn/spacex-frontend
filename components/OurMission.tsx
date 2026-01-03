@@ -21,10 +21,10 @@ const OurMission = () => {
           transportation solutions across the United States.
         </p>
         <div className='flex flex-wrap gap-3'>
-          <Link href='#' className='btn-base py-3 px-6 uppercase text-xs lg:text-[20px] lg:py-4 lg:px-9 lg:rounded-lg'>
+          <Link href='#' className='btn-base py-3 px-7 uppercase text-xs lg:text-[20px] lg:py-4 lg:px-9 lg:rounded-lg'>
             Join
           </Link>
-          <Link href='#' className='btn-outline py-3 px-5 uppercase text-xs lg:text-[20px] lg:py-4 lg:px-8 lg:rounded-lg'>
+          <Link href='#' className='btn-outline py-3 px-6 uppercase text-xs lg:text-[20px] lg:py-4 lg:px-8 lg:rounded-lg'>
             Learn More
           </Link>
         </div>

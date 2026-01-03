@@ -1,3 +1,4 @@
+import AboutUs from '@/components/AboutUs';
 import Features from '@/components/Features';
 import Navbar from '@/components/Navbar';
 import OurMission from '@/components/OurMission';
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <Features />
       <OurMission />
+      <AboutUs />
     </main>
   );
 }
