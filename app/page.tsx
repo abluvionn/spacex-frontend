@@ -1,4 +1,5 @@
 import AboutUs from '@/components/AboutUs';
+import DriverOpportunities from '@/components/DriverOpportunities';
 import Features from '@/components/Features';
 import Navbar from '@/components/Navbar';
 import OurMission from '@/components/OurMission';
@@ -10,6 +11,7 @@ export default function Home() {
       <Features />
       <OurMission />
       <AboutUs />
+      <DriverOpportunities />
     </main>
   );
 }

@@ -44,8 +44,7 @@ const AboutUsCard = ({
           src={img}
           alt='feature image'
           fill
-          objectFit='cover'
-          className='rounded-b-[10px] z-10'
+          className='rounded-b-[10px] z-10 object-cover'
         />
       </div>
     </article>
