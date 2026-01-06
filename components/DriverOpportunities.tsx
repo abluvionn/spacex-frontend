@@ -16,7 +16,7 @@ const DriverOpportunities = () => {
         </p>
         <Link
           href='#'
-          className='py-3 px-6 bg-primary text-white uppercase font-poppins font-semibold text-sm rounded inline-block hover:bg-primary/90 transition'
+          className='py-3 px-6 bg-primary text-white uppercase font-poppins font-semibold text-sm rounded inline-block hover:bg-primary/90 active:bg-primary/80 transition'
         >
           learn more
         </Link>

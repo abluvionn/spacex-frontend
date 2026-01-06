@@ -1,4 +1,5 @@
 import AboutUs from '@/components/AboutUs';
+import CallToAction from '@/components/CallToAction';
 import DriverOpportunities from '@/components/DriverOpportunities';
 import Features from '@/components/Features';
 import Navbar from '@/components/Navbar';
@@ -12,6 +13,7 @@ export default function Home() {
       <OurMission />
       <AboutUs />
       <DriverOpportunities />
+      <CallToAction />
     </main>
   );
 }

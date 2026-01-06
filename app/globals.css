@@ -21,9 +21,9 @@ html {
     @apply w-full h-[140px] lg:h-[480px] xl:h-[800px] uppercase flex items-center justify-center font-bold text-3xl xl:text-5xl text-center text-white px-6;
   }
   .btn-base {
-    @apply rounded-md font-poppins font-semibold text-white bg-accent hover:bg-accent/90 transition;
+    @apply rounded-md font-poppins font-semibold text-white bg-accent hover:bg-accent/90 active:bg-accent/80 transition;
   }
   .btn-outline {
-    @apply rounded-md font-poppins font-semibold text-black border border-black hover:bg-black/10 transition;
+    @apply rounded-md font-poppins font-semibold text-black border border-black hover:bg-black/10 active:bg-black/20 transition;
   }
 }

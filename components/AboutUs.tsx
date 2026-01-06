@@ -27,7 +27,7 @@ const AboutUs = () => {
       </div>
       <Link
         href='#'
-        className='py-3 ps-4 pe-5 bg-primary text-white uppercase text-sm font-medium font-poppins rounded-full flex items-center gap-[10px] hover:bg-primary/90 transition'
+        className='py-3 ps-4 pe-5 bg-primary text-white uppercase text-sm font-medium font-poppins rounded-full flex items-center gap-[10px] hover:bg-primary/90 active:bg-primary/80 transition'
       >
         <span>More About Us</span>
         <Image
