@@ -37,3 +37,15 @@
 .our-mission-image {
   background: url('/images/our-mission.jpg') no-repeat center center / cover;
 }
+
+.footer {
+  background: #090A3F;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      rgba(9, 10, 63, 0.98) 100%,
+      rgba(9, 10, 63, 0.98) 100%
+    ),
+    url('/images/footer-bg.png');
+}

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/style.css';
 
@@ -7,6 +7,12 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700'],
   variable: '--font-poppins',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '700', '800'],
+  variable: '--font-inter',
 });
 
 export const metadata: Metadata = {
@@ -21,7 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={`${poppins.variable} antialiased`}>
+    <html
+      lang='en'
+      className={`${poppins.variable} ${inter.variable} antialiased`}
+    >
       <body>{children}</body>
     </html>
   );
