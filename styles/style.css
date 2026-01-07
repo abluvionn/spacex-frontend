@@ -39,7 +39,7 @@
 }
 
 .footer {
-  background: #090A3F;
+  background: #090a3f;
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -47,5 +47,24 @@
       rgba(9, 10, 63, 0.98) 100%,
       rgba(9, 10, 63, 0.98) 100%
     ),
-    url('/images/footer-bg.png');
+    url('/images/logo-white.png');
+}
+
+.nav-link.active,
+.nav-link:hover {
+  text-decoration: underline #d71920 3px;
+  text-underline-offset: 4px;
+}
+
+.about-us-banner {
+  background: #02033b;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      180deg,
+      rgba(2, 3, 59, 0) 0%,
+      rgba(2, 3, 59, 0.6) 37.98%
+    ),
+    url('/images/about-us-banner.jpg');
 }

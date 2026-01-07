@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/style.css';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import CallToAction from '@/components/CallToAction';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -31,7 +34,12 @@ export default function RootLayout({
       lang='en'
       className={`${poppins.variable} ${inter.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <Navbar />
+        {children}
+        <CallToAction />
+        <Footer />
+      </body>
     </html>
   );
 }

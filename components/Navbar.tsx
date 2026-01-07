@@ -3,11 +3,13 @@
 import { applicationFormLink, navLinks } from '@/lib/constants';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 const Navbar = () => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
+  console.log(pathname);
   const toggleMenu = () => {
     setOpen(!open);
   };
@@ -51,7 +53,10 @@ const Navbar = () => {
       >
         {navLinks.map((link) => (
           <li key={link.path}>
-            <Link href={link.path} className='nav-link'>
+            <Link
+              href={link.path}
+              className={`nav-link ${pathname === link.path ? 'active' : ''} `}
+            >
               {link.name}
             </Link>
           </li>

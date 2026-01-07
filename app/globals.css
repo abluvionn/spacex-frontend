@@ -16,7 +16,7 @@ html {
 
 @layer components {
   .nav-link {
-    @apply font-poppins font-medium text-primary hover:underline underline-offset-2;
+    @apply font-poppins font-medium text-primary;
   }
   .feature-banner {
     @apply w-full h-[140px] lg:h-[480px] xl:h-[800px] uppercase flex items-center justify-center font-bold text-3xl xl:text-5xl text-center text-white px-6;
