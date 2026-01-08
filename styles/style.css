@@ -68,3 +68,13 @@
     ),
     url('/images/about-us-banner.jpg');
 }
+
+.job-benefits {
+  background: url('/images/job-benefits-bg.png') no-repeat center center / cover;
+}
+
+@media screen and (width >= 64rem) {
+  .job-benefits {
+    background-size: contain;
+  }
+}
