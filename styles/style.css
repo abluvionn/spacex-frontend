@@ -72,9 +72,16 @@
 .job-benefits {
   background: url('/images/job-benefits-bg.png') no-repeat center center / cover;
 }
+.work-conditions {
+  background: url('/images/work-conditions-bg.png') no-repeat center center /
+    cover;
+}
 
 @media screen and (width >= 64rem) {
   .job-benefits {
+    background-size: contain;
+  }
+  .work-conditions {
     background-size: contain;
   }
 }
