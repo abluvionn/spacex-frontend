@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <footer className='text-white py-6 px-5 footer font-inter'>
+    <footer id='contacts' className='text-white py-6 px-5 footer font-inter'>
       <div className='px-[10px] mx-auto max-w-md'>
         <div className='p-7 rounded-4xl bg-white flex flex-col items-start gap-4 w-full'>
           <Image src='/icons/footer.png' width={47} height={33} alt='logo' />

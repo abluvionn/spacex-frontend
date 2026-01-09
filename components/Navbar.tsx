@@ -9,7 +9,6 @@ import { useState } from 'react';
 const Navbar = () => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  console.log(pathname);
   const toggleMenu = () => {
     setOpen(!open);
   };

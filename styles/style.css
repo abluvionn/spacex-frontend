@@ -76,6 +76,9 @@
   background: url('/images/work-conditions-bg.png') no-repeat center center /
     cover;
 }
+.faq-title {
+  font-variant-caps: all-small-caps;
+}
 
 @media screen and (width >= 64rem) {
   .job-benefits {
@@ -83,5 +86,8 @@
   }
   .work-conditions {
     background-size: contain;
+  }
+  .faq-title {
+    font-variant-caps: normal;
   }
 }

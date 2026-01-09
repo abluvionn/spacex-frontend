@@ -27,4 +27,10 @@ html {
   .btn-outline {
     @apply rounded-md font-poppins font-semibold text-black border border-black hover:bg-black/10 active:bg-black/20 transition;
   }
+  .faq-question {
+    @apply font-poppins font-medium text-sm text-dark-gray bg-[#FAFCFB] border border-[#E7EEEC] rounded-md p-3 mb-[7px] hover:bg-[#090A3F] hover:text-white cursor-pointer transition lg:text-lg lg:p-5 lg:mb-4 lg:rounded-[9px];
+  }
+  .faq-question.active {
+    @apply bg-[#090A3F] text-white;
+  }
 }
