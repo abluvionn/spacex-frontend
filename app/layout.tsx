@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html
       lang='en'
-      className={`${poppins.variable} ${inter.variable} antialiased`}
+      className={`${poppins.variable} ${inter.variable} antialiased scroll-smooth`}
     >
       <body>
         <Navbar />

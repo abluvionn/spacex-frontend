@@ -56,7 +56,7 @@
   text-underline-offset: 4px;
 }
 
-.about-us-banner {
+.driver-opportunities-banner {
   background: #02033b;
   background-position: center;
   background-size: cover;
@@ -65,6 +65,19 @@
       180deg,
       rgba(2, 3, 59, 0) 0%,
       rgba(2, 3, 59, 0.6) 37.98%
+    ),
+    url('/images/driver-opportunities-banner.jpg');
+}
+
+.about-us-banner {
+  background: #02033b;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      180deg,
+      rgba(0, 1, 46, 0) 8.65%,
+      rgba(0, 1, 46, 0.73) 57.21%
     ),
     url('/images/about-us-banner.jpg');
 }

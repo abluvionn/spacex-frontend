@@ -1,4 +1,4 @@
-import AboutUsBanner from '@/components/AboutUsBanner';
+import DriverOpportunitiesBanner from '@/components/DriverOpportunitiesBanner';
 import FAQ from '@/components/FAQ';
 import JobBenefits from '@/components/JobBenefits';
 import WorkConditions from '@/components/WorkConditions';
@@ -6,7 +6,7 @@ import WorkConditions from '@/components/WorkConditions';
 const page = () => {
   return (
     <main>
-      <AboutUsBanner />
+      <DriverOpportunitiesBanner />
       <JobBenefits />
       <WorkConditions />
       <FAQ />

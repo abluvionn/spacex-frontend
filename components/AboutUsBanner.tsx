@@ -1,41 +1,24 @@
 import Image from 'next/image';
-import Link from 'next/link';
 
 const AboutUsBanner = () => {
   return (
-    <section className='about-us-banner text-white text-center py-[47px] lg:pt-[70px] lg:pb-[115px] px-2'>
+    <section className='about-us-banner py-[46px] text-white uppercase flex flex-col items-center justify-center px-5 text-center gap-5 lg:pt-[130px] lg:pb-[191px] lg:gap-[50px]'>
       <Image
         src='/images/logo-white.png'
-        alt='truck background'
+        alt='Logo'
+        width={65}
         height={45}
-        width={75}
-        className='mx-auto lg:h-[96px] lg:w-[160px]'
+        className='lg:w-[160px] lg:h-[96px]'
       />
       <h1
-        className='text-3xl font-bold uppercase my-5 lg:my-[40px] lg:text-[54px] lg:max-w-[610px] mx-auto'
+        className='text-4xl font-bold mb-3 lg:text-7xl'
         style={{ fontVariantCaps: 'all-small-caps' }}
       >
-        driver opportunities at spacex
+        About Us
       </h1>
-      <p className='font-poppins font-light text-xs leading-5 max-w-[310px] mx-auto mb-[60px] tracking-wider lg:text-[20px] lg:max-w-[540px] leading-7 lg:mb-[80px]'>
-        At our trucking company, we value our drivers and logistics team as the
-        backbone of our success. That’s why we offer a comprehensive benefits
-        package designed to support your well-being on and off the road.
+      <p className='font-poppins font-light lg:text-[20px] lg:tracking-wide'>
+        discover our journey, values, and mission
       </p>
-      <div className='flex flex-wrap gap-[10px] lg:gap-[30px] items-center justify-center'>
-        <Link
-          href='#'
-          className='btn-base px-6 py-4 uppercase text-xs lg:text-xl lg:px-9 lg:py-6'
-        >
-          Contact Us
-        </Link>
-        <Link
-          href='#'
-          className='font-poppins text-black bg-white rounded-md px-6 py-[14px] uppercase text-xs font-semibold hover:bg-white/90 active:bg-white/80 transition lg:text-xl lg:px-9 lg:py-6'
-        >
-          Full Application
-        </Link>
-      </div>
     </section>
   );
 };
