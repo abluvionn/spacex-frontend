@@ -98,6 +98,12 @@
   background-position: bottom right;
 }
 
+.our-mission {
+  background: url('/images/our-mission-bg.png') no-repeat;
+  background-position: bottom left;
+  background-size: 400px;
+}
+
 @media screen and (width >= 64rem) {
   .job-benefits {
     background-size: contain;
@@ -111,6 +117,10 @@
   .our-history {
     background-size: contain;
     background-position: right center;
+  }
+  .our-mission {
+    background-position: center left;
+    background-size: 50%;
   }
 }
 
