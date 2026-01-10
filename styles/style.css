@@ -109,6 +109,18 @@
     #2842831c;
 }
 
+.our-fleet {
+  background: #090a3fab;
+  background-image: linear-gradient(
+      rgba(9, 10, 63, 0.67) 100%,
+      rgba(9, 10, 63, 0.67) 100%
+    ),
+    url('/images/our-fleet-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 @media screen and (width >= 64rem) {
   .job-benefits {
     background-size: contain;
