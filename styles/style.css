@@ -104,3 +104,8 @@
     font-variant-caps: normal;
   }
 }
+
+.our-history {
+  background: url('/images/our-history-bg.png') no-repeat #090a3f;
+  background-position: bottom right;
+}
