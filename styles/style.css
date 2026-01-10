@@ -104,6 +104,11 @@
   background-size: 400px;
 }
 
+.our-values {
+  background: url('/images/our-values-bg.png') no-repeat center center / cover,
+    #2842831c;
+}
+
 @media screen and (width >= 64rem) {
   .job-benefits {
     background-size: contain;

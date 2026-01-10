@@ -1,6 +1,7 @@
 import AboutUsBanner from '@/components/AboutUsBanner';
 import OurHistory from '@/components/OurHistory';
 import OurMissionSection from '@/components/OurMissionSection';
+import OurValues from '@/components/OurValues';
 
 const page = () => {
   return (
@@ -8,6 +9,7 @@ const page = () => {
       <AboutUsBanner />
       <OurHistory />
       <OurMissionSection />
+      <OurValues />
     </main>
   );
 };
