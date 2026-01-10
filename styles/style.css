@@ -93,6 +93,11 @@
   font-variant-caps: all-small-caps;
 }
 
+.our-history {
+  background: url('/images/our-history-bg.png') no-repeat #090a3f;
+  background-position: bottom right;
+}
+
 @media screen and (width >= 64rem) {
   .job-benefits {
     background-size: contain;
@@ -103,9 +108,15 @@
   .faq-title {
     font-variant-caps: normal;
   }
+  .our-history {
+    background-size: contain;
+    background-position: right center;
+  }
 }
 
-.our-history {
-  background: url('/images/our-history-bg.png') no-repeat #090a3f;
-  background-position: bottom right;
+@media screen and (width >= 80rem) {
+  .our-history {
+    background-size: contain;
+    background-position: 70% center;
+  }
 }
