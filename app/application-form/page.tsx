@@ -1,10 +1,10 @@
 const page = () => {
   return (
-    <section className='pt-[30px] px-5 max-w-[550px] lg:ps-[100px]'>
-      <h1 className='font-poppins font-bold text-2xl text-[#383C3E]'>
+    <section className='pt-[30px] px-5 max-w-[550px] lg:ps-[100px] lg:pt-[60px]'>
+      <h1 className='font-poppins font-bold text-2xl lg:text-4xl text-[#383C3E]'>
         Application form
       </h1>
-      <p className='font-poppins text-[#737B7D] text-sm mt-4 mb-10'>
+      <p className='font-poppins text-[#737B7D] text-sm lg:text-base mt-4 mb-10'>
         Complete the Form to join our driving team!
       </p>
       <form action='' className='flex flex-col pb-[50px]'>
@@ -130,17 +130,17 @@ const page = () => {
         ></textarea>
         <label
           htmlFor='resume'
-          className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm'
+          className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm lg:text-base'
         >
           Upload Resume
         </label>
-        <p className='font-inter text-[#8E8E8E] text-xs mt-3 mb-10'>
+        <p className='font-inter text-[#8E8E8E] text-xs mt-3 mb-10 lg:text-sm'>
           Attach file. File size of your documents should not exceed 10MB
         </p>
         <input type='file' name='resume' id='resume' hidden />
         <button
           type='submit'
-          className='bg-accent p-4 text-white uppercase tracking-wider font-inter font-medium text-sm cursor-pointer hover:bg-accent/95 active:bg-accent/90'
+          className='bg-accent p-4 text-white uppercase tracking-wider font-inter font-medium text-sm cursor-pointer hover:bg-accent/95 active:bg-accent/90 lg:text-base'
         >
           Submit
         </button>
