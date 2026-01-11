@@ -1,4 +1,5 @@
 import AboutUsBanner from '@/components/AboutUsBanner';
+import OurCoverage from '@/components/OurCoverage';
 import OurFleet from '@/components/OurFleet';
 import OurHistory from '@/components/OurHistory';
 import OurMissionSection from '@/components/OurMissionSection';
@@ -14,6 +15,7 @@ const page = () => {
       <OurValues />
       <OurFleet />
       <OurNumbers />
+      <OurCoverage />
     </main>
   );
 };
