@@ -121,6 +121,23 @@
   background-repeat: no-repeat;
 }
 
+.form-input::placeholder {
+  color: #383c3e;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+.form-comments::placeholder {
+  color: #8e8e8e;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+.form-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
 @media screen and (width >= 64rem) {
   .job-benefits {
     background-size: contain;
