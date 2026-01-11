@@ -2,7 +2,10 @@ import Image from 'next/image';
 
 const OurCoverage = () => {
   return (
-    <section className='pt-[30px] pb-[40px] px-[30px] lg:pt-[100px] lg:pb-[200px]'>
+    <section
+      className='pt-[30px] pb-[40px] px-[30px] lg:pt-[100px] lg:pb-[200px]'
+      id='our-coverage'
+    >
       <div className='max-w-6xl mx-auto'>
         <h2
           className='font-bold text-[28px] lg:text-4xl uppercase before:content-[""] before:me-2 before:bg-accent before:h-0.5 before:w-3 before:inline-block flex items-center justify-start lg:before:w-5'

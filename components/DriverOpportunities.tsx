@@ -15,7 +15,7 @@ const DriverOpportunities = () => {
           Discover more about work conditions and benefits for our drivers
         </p>
         <Link
-          href='#'
+          href='/driver-opportunities'
           className='py-3 px-6 bg-primary text-white uppercase font-poppins font-semibold text-sm rounded inline-block hover:bg-primary/90 active:bg-primary/80 transition'
         >
           learn more
@@ -35,19 +35,19 @@ const DriverOpportunities = () => {
         </div>
         <div className='flex-1 flex flex-col justify-center items-center'>
           <Link
-            href='#'
+            href='/driver-opportunities#job-benefits'
             className='font-poppins text-sm py-4 w-full text-center border-t border-[#D6D6D6] hover:text-accent transition lg:text-base'
           >
             Job Benefits
           </Link>
           <Link
-            href='#'
+            href='/driver-opportunities#work-conditions'
             className='font-poppins text-sm py-4 w-full text-center border-t border-[#D6D6D6] hover:text-accent transition lg:text-base'
           >
             Work Conditions
           </Link>
           <Link
-            href='#'
+            href='/driver-opportunities#faq'
             className='font-poppins text-sm py-4 w-full text-center border-t border-b border-[#D6D6D6] hover:text-accent transition lg:text-base'
           >
             FAQ

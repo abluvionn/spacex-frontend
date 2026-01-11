@@ -33,7 +33,10 @@ const items = [
 
 const JobBenefits = () => {
   return (
-    <section className='job-benefits pt-[42px] pb-[69px] lg:pt-[70px] lg:pb-[100px] px-5'>
+    <section
+      className='job-benefits pt-[42px] pb-[69px] lg:pt-[70px] lg:pb-[100px] px-5'
+      id='job-benefits'
+    >
       <h2
         className='text-2xl font-bold uppercase text-center lg:text-4xl'
         style={{ fontVariantCaps: 'all-small-caps' }}

@@ -1,6 +1,9 @@
 const OurFleet = () => {
   return (
-    <section className='our-fleet pt-[62px] pb-[113px] px-[30px] text-white flex flex-col items-center lg:py-[158px]'>
+    <section
+      className='our-fleet pt-[62px] pb-[113px] px-[30px] text-white flex flex-col items-center lg:py-[158px]'
+      id='our-fleet'
+    >
       <div className='max-w-7xl mx-auto'>
         <h2
           className='font-bold text-3xl text-center uppercase tracking-wide mb-15 before:content-[""] before:me-2 before:bg-accent before:h-0.5 before:w-4 before:inline-block flex items-center justify-center lg:justify-start lg:text-4xl'

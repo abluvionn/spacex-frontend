@@ -24,13 +24,13 @@ const DriverOpportunitiesBanner = () => {
       </p>
       <div className='flex flex-wrap gap-[10px] lg:gap-[30px] items-center justify-center'>
         <Link
-          href='#'
+          href='#contacts'
           className='btn-base px-6 py-4 uppercase text-xs lg:text-xl lg:px-9 lg:py-6'
         >
           Contact Us
         </Link>
         <Link
-          href='#'
+          href='/application-form'
           className='font-poppins text-black bg-white rounded-md px-6 py-[14px] uppercase text-xs font-semibold hover:bg-white/90 active:bg-white/80 transition lg:text-xl lg:px-9 lg:py-6'
         >
           Full Application

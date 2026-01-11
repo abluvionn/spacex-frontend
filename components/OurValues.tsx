@@ -33,7 +33,7 @@ const items = [
 
 const OurValues = () => {
   return (
-    <section className='py-8 px-[30px] lg:py-15 our-values'>
+    <section className='py-8 px-[30px] lg:py-15 our-values' id='our-values'>
       <div className='max-w-7xl mx-auto'>
         <h2 className='text-primary font-poppins font-bold text-2xl lg:text-4xl uppercase mb-7 lg:mb-12 lg:text-center'>
           Our Values

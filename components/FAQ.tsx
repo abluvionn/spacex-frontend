@@ -18,7 +18,10 @@ const FAQ = () => {
   };
 
   return (
-    <section className='px-[29px] pt-[62px] pb-[46px] max-w-7xl mx-auto'>
+    <section
+      className='px-[29px] pt-[62px] pb-[46px] max-w-7xl mx-auto'
+      id='faq'
+    >
       <div className='lg:flex lg:gap-6 lg:items-stretch'>
         <div className='lg:flex-1'>
           <h3 className='faq-title font-poppins font-semibold text-4xl uppercase mb-4 lg:text-3xl'>
