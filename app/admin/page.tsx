@@ -1,21 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useLoginMutation } from '@/lib/api';
+import { LoginError } from '@/lib/types';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  function handleSubmit(e: React.FormEvent) {
+  const [login, { isLoading, isSuccess, data }] = useLoginMutation();
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      const token = data.accessToken;
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+      // Redirect to admin root (update to your protected route)
+      router.push('/admin');
+    }
+  }, [isSuccess, data, router]);
+
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading(true);
+    setError(null);
 
-    console.log('Login attempt:', { email, password });
-    setTimeout(() => {
-      setLoading(false);
-      alert('Logged in (demo)');
-    }, 600);
+    try {
+      await login({ email, password }).unwrap();
+      // success handled by effect
+    } catch (err: unknown) {
+      if ((err as LoginError).data && (err as LoginError).data.error) {
+        const loginErr = err as LoginError;
+        setError(loginErr.data.error);
+        return;
+      }
+      setError('An unexpected error occurred. Please try again.');
+    }
   }
 
   return (
@@ -33,8 +56,9 @@ export default function AdminLoginPage() {
           Email
           <input
             id='email'
-            className='border text-sm px-3 py-2.5 rounded-lg border-solid border-[#e6edf3]'
+            className='border text-sm px-3 py-2.5 rounded-lg border-solid border-[#e6edf3] text-black'
             type='email'
+            autoComplete='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -49,8 +73,9 @@ export default function AdminLoginPage() {
           Password
           <input
             id='password'
-            className='border text-sm px-3 py-2.5 rounded-lg border-solid border-[#e6edf3]'
+            className='border text-sm px-3 py-2.5 rounded-lg border-solid border-[#e6edf3] text-black'
             type='password'
+            autoComplete='current-password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -58,12 +83,14 @@ export default function AdminLoginPage() {
           />
         </label>
 
+        {error && <div className='text-sm text-red-600 mt-1'>{error}</div>}
+
         <button
           className='text-[white] cursor-pointer font-semibold mt-1.5 px-3 py-2.5 rounded-lg border-[none] disabled:opacity-70 disabled:cursor-not-allowed bg-[#2563eb]'
           type='submit'
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? 'Logging in...' : 'Login'}
+          {isLoading ? 'Logging in...' : 'Login'}
         </button>
       </form>
     </div>

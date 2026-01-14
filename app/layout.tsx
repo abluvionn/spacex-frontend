@@ -3,6 +3,7 @@ import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/style.css';
 import ConditionalShell from '@/components/ConditionalShell';
+import ReduxProvider from '@/providers/ReduxProvider';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -33,7 +34,9 @@ export default function RootLayout({
       className={`${poppins.variable} ${inter.variable} antialiased scroll-smooth`}
     >
       <body>
-        <ConditionalShell>{children}</ConditionalShell>
+        <ReduxProvider>
+          <ConditionalShell>{children}</ConditionalShell>
+        </ReduxProvider>
       </body>
     </html>
   );
