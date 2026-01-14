@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins, Inter } from 'next/font/google';
 import './globals.css';
 import '@/styles/style.css';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import CallToAction from '@/components/CallToAction';
+import ConditionalShell from '@/components/ConditionalShell';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -35,10 +33,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${inter.variable} antialiased scroll-smooth`}
     >
       <body>
-        <Navbar />
-        {children}
-        <CallToAction />
-        <Footer />
+        <ConditionalShell>{children}</ConditionalShell>
       </body>
     </html>
   );
