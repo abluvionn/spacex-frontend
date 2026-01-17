@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { LoginRequest, LoginResponse } from '@/lib/types';
+import type { LoginRequest, LoginResponse, FormResponse } from '@/lib/types';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -22,7 +22,14 @@ export const api = createApi({
         body,
       }),
     }),
+    submitApplicationForm: builder.mutation<FormResponse, FormData>({
+      query: (formData) => ({
+        url: 'applications',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = api;
+export const { useLoginMutation, useSubmitApplicationFormMutation } = api;

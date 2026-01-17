@@ -27,3 +27,27 @@ export interface LoginError extends GlobalError {
     error: string;
   };
 }
+
+export interface TruckTypes {
+  reefer: boolean;
+  smallTruck: boolean;
+  carCarrier: boolean;
+  liveSock: boolean;
+  semiTrailer: boolean;
+  tankTruck: boolean;
+}
+
+export interface FormResponse {
+  _id: string;
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  cdlLicense: string;
+  state: string;
+  drivingExperience: string;
+  truckTypes: string | TruckTypes;
+  longHaulTrips: string;
+  comments: string;
+  createdAt: string;
+  updatedAt: string;
+}
