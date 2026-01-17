@@ -79,3 +79,8 @@ export interface GetApplicationsResponse {
   data: Application[];
   pagination: PaginationInfo;
 }
+
+// Type for logout response
+export interface LogoutResponse {
+  message: string;
+}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useGetApplicationsQuery } from '@/lib/api';
+import { useGetApplicationsQuery, useLogoutMutation } from '@/lib/api';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -13,6 +13,7 @@ export default function AdminDashboard() {
     isLoading,
     error,
   } = useGetApplicationsQuery({ page, limit: 10 });
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     // protect route on client
@@ -27,10 +28,16 @@ export default function AdminDashboard() {
     setTimeout(() => setChecking(false), 0);
   }, [router]);
 
-  function handleLogout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    router.push('/admin/login');
+  async function handleLogout() {
+    try {
+      await logout().unwrap();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      router.push('/admin/login');
+    }
   }
 
   function handleProfileClick() {

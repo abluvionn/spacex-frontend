@@ -2,12 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLogoutMutation } from '@/lib/api';
 import type { User } from '@/lib/types';
 
 export default function AdminProfile() {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [checking, setChecking] = useState(true);
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     // protect route on client
@@ -33,10 +35,16 @@ export default function AdminProfile() {
     setTimeout(() => setChecking(false), 0);
   }, [router]);
 
-  function handleLogout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    router.push('/admin/login');
+  async function handleLogout() {
+    try {
+      await logout().unwrap();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      router.push('/admin/login');
+    }
   }
 
   function handleBack() {

@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import {
   useGetApplicationByIdQuery,
   useToggleApplicationArchiveMutation,
+  useLogoutMutation,
 } from '@/lib/api';
 
 export default function ApplicationDetail() {
@@ -20,6 +21,7 @@ export default function ApplicationDetail() {
   } = useGetApplicationByIdQuery(applicationId, { skip: !applicationId });
   const [toggleApplicationArchive, { isLoading: isTogglingArchive }] =
     useToggleApplicationArchiveMutation();
+  const [logout] = useLogoutMutation();
 
   useEffect(() => {
     // protect route on client
@@ -33,10 +35,16 @@ export default function ApplicationDetail() {
     setTimeout(() => setChecking(false), 0);
   }, [router]);
 
-  function handleLogout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    router.push('/admin/login');
+  async function handleLogout() {
+    try {
+      await logout().unwrap();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      router.push('/admin/login');
+    }
   }
 
   function handleBack() {

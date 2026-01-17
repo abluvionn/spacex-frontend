@@ -11,6 +11,7 @@ import type {
   FormResponse,
   GetApplicationsResponse,
   Application,
+  LogoutResponse,
 } from '@/lib/types';
 
 // Flag to prevent multiple refresh requests
@@ -146,6 +147,12 @@ export const api = createApi({
         method: 'PATCH',
       }),
     }),
+    logout: builder.mutation<LogoutResponse, void>({
+      query: () => ({
+        url: 'auth/logout',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
@@ -155,4 +162,5 @@ export const {
   useGetApplicationsQuery,
   useGetApplicationByIdQuery,
   useToggleApplicationArchiveMutation,
+  useLogoutMutation,
 } = api;
