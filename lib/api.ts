@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { LoginRequest, LoginResponse, FormResponse } from '@/lib/types';
+import type {
+  LoginRequest,
+  LoginResponse,
+  FormResponse,
+  GetApplicationsResponse,
+  Application,
+} from '@/lib/types';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -29,7 +35,34 @@ export const api = createApi({
         body: formData,
       }),
     }),
+    getApplications: builder.query<
+      GetApplicationsResponse,
+      { page?: number; limit?: number } | void
+    >({
+      query: (params) => {
+        const queryParams = new URLSearchParams();
+        if (params?.page) queryParams.append('page', String(params.page));
+        if (params?.limit) queryParams.append('limit', String(params.limit));
+        return {
+          url: `applications${
+            queryParams.toString() ? '?' + queryParams.toString() : ''
+          }`,
+          method: 'GET',
+        };
+      },
+    }),
+    getApplicationById: builder.query<Application, string>({
+      query: (id) => ({
+        url: `applications/${id}`,
+        method: 'GET',
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useSubmitApplicationFormMutation } = api;
+export const {
+  useLoginMutation,
+  useSubmitApplicationFormMutation,
+  useGetApplicationsQuery,
+  useGetApplicationByIdQuery,
+} = api;

@@ -51,3 +51,31 @@ export interface FormResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface Application {
+  _id: string;
+  fullName: string;
+  phoneNumber: string;
+  email: string;
+  cdlLicense: string;
+  state: string;
+  drivingExperience: string;
+  truckTypes: string[];
+  longHaulTrips: 'yes' | 'no';
+  archived: boolean;
+  createdAt: string;
+  updatedAt: string;
+  comments?: string;
+}
+
+export interface PaginationInfo {
+  total: number;
+  page: number;
+  limit: number;
+  pages: number;
+}
+
+export interface GetApplicationsResponse {
+  data: Application[];
+  pagination: PaginationInfo;
+}

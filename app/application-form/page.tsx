@@ -253,6 +253,7 @@ const Page = () => {
         <div className='flex gap-6 mb-6'>
           <div className='flex items-center gap-2'>
             <input
+              required
               type='radio'
               name='longHaulTrips'
               id='trips-yes'
