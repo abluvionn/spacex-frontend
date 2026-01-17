@@ -12,6 +12,8 @@ import type {
   GetApplicationsResponse,
   Application,
   LogoutResponse,
+  RegisterRequest,
+  User,
 } from '@/lib/types';
 
 // Flag to prevent multiple refresh requests
@@ -112,6 +114,13 @@ export const api = createApi({
         body,
       }),
     }),
+    register: builder.mutation<User, RegisterRequest>({
+      query: (body) => ({
+        url: 'auth/register',
+        method: 'POST',
+        body,
+      }),
+    }),
     submitApplicationForm: builder.mutation<FormResponse, FormData>({
       query: (formData) => ({
         url: 'applications',
@@ -158,6 +167,7 @@ export const api = createApi({
 
 export const {
   useLoginMutation,
+  useRegisterMutation,
   useSubmitApplicationFormMutation,
   useGetApplicationsQuery,
   useGetApplicationByIdQuery,

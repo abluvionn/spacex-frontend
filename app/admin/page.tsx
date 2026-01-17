@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useGetApplicationsQuery, useLogoutMutation } from '@/lib/api';
 
@@ -12,6 +13,7 @@ export default function AdminDashboard() {
     data: applicationsData,
     isLoading,
     error,
+    refetch,
   } = useGetApplicationsQuery({ page, limit: 10 });
   const [logout] = useLogoutMutation();
 
@@ -48,6 +50,14 @@ export default function AdminDashboard() {
     router.push(`/admin/applications/${id}`);
   }
 
+  function handleCreateUserClick() {
+    router.push('/admin/create-user');
+  }
+
+  function handleRefresh() {
+    refetch();
+  }
+
   if (checking) return null;
 
   const applications = applicationsData?.data || [];
@@ -57,8 +67,27 @@ export default function AdminDashboard() {
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-6xl mx-auto bg-white p-6 rounded shadow'>
         <div className='flex items-center justify-between mb-6'>
-          <h1 className='text-2xl font-semibold'>Admin Dashboard</h1>
+          <h1 className='text-2xl font-semibold'>Applications</h1>
           <div className='flex gap-2'>
+            <button
+              onClick={handleRefresh}
+              disabled={isLoading}
+              className='text-sm border border-slate-600 disabled:bg-slate-500 text-white p-1.5 rounded cursor-pointer disabled:cursor-not-allowed flex items-center gap-1'
+              title='Refresh applications'
+            >
+              <Image
+                src='/icons/refresh.png'
+                alt='Refresh'
+                width={16}
+                height={16}
+              />
+            </button>
+            <button
+              onClick={handleCreateUserClick}
+              className='text-sm bg-green-600 text-white px-3 py-1.5 rounded cursor-pointer hover:bg-green-700'
+            >
+              Create User
+            </button>
             <button
               onClick={handleProfileClick}
               className='text-sm bg-slate-600 text-white px-3 py-1.5 rounded cursor-pointer hover:bg-slate-700'

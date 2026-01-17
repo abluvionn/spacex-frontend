@@ -57,7 +57,7 @@ export default function AdminProfile() {
     <div className='min-h-[70vh] flex items-center justify-center px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-3xl bg-white p-6 rounded shadow'>
         <div className='flex items-center justify-between'>
-          <h1 className='text-xl font-semibold mb-3'>Admin Profile</h1>
+          <h1 className='text-xl font-semibold mb-3'>Profile</h1>
           <div className='flex gap-2'>
             <button
               onClick={handleBack}
