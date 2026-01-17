@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useGetApplicationByIdQuery } from '@/lib/api';
+import {
+  useGetApplicationByIdQuery,
+  useToggleApplicationArchiveMutation,
+} from '@/lib/api';
 
 export default function ApplicationDetail() {
   const router = useRouter();
@@ -10,10 +13,13 @@ export default function ApplicationDetail() {
   const [checking, setChecking] = useState(true);
 
   const applicationId = params.id as string;
-  const { data: application, isLoading } = useGetApplicationByIdQuery(
-    applicationId,
-    { skip: !applicationId }
-  );
+  const {
+    data: application,
+    isLoading,
+    refetch,
+  } = useGetApplicationByIdQuery(applicationId, { skip: !applicationId });
+  const [toggleApplicationArchive, { isLoading: isTogglingArchive }] =
+    useToggleApplicationArchiveMutation();
 
   useEffect(() => {
     // protect route on client
@@ -35,6 +41,17 @@ export default function ApplicationDetail() {
 
   function handleBack() {
     router.back();
+  }
+
+  async function handleToggleArchive() {
+    if (!application) return;
+    try {
+      await toggleApplicationArchive(applicationId).unwrap();
+      // Refetch the application data to update the UI
+      refetch();
+    } catch (error) {
+      console.error('Failed to toggle archive status:', error);
+    }
   }
 
   if (checking || isLoading) return null;
@@ -78,9 +95,16 @@ export default function ApplicationDetail() {
   return (
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-3xl mx-auto bg-white p-6 rounded shadow'>
-        <div className='flex items-center justify-between mb-6'>
-          <h1 className='text-2xl font-semibold'>Application Details</h1>
-          <div className='flex gap-2'>
+        <div className='flex items-center justify-between mb-6 flex-wrap'>
+          <div className='flex items-center gap-3'>
+            <h1 className='text-2xl font-semibold'>Application Details</h1>
+            {application.archived && (
+              <span className='inline-block bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-semibold'>
+                ARCHIVED
+              </span>
+            )}
+          </div>
+          <div className='flex gap-2 flex-wrap'>
             <button
               onClick={handleBack}
               className='text-sm bg-slate-600 text-white px-3 py-1.5 rounded cursor-pointer hover:bg-slate-700'
@@ -246,6 +270,25 @@ export default function ApplicationDetail() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Archive Toggle Button */}
+        <div className='mt-8 pt-6 border-t border-slate-200'>
+          <button
+            onClick={handleToggleArchive}
+            disabled={isTogglingArchive}
+            className={`cursor-pointer px-4 py-2 rounded font-medium text-white transition-colors ${
+              application.archived
+                ? 'bg-green-600 hover:bg-green-700 disabled:bg-green-400'
+                : 'bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-400'
+            } disabled:cursor-not-allowed`}
+          >
+            {isTogglingArchive
+              ? 'Processing...'
+              : application.archived
+              ? 'Unarchive Application'
+              : 'Archive Application'}
+          </button>
         </div>
       </div>
     </div>
