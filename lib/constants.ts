@@ -8,3 +8,5 @@ export const applicationFormLink = {
   name: 'Apply Now',
   path: '/application-form',
 };
+export const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api/';
