@@ -9,6 +9,7 @@ export default function CreateUser() {
   const [checking, setChecking] = useState(true);
   const [register, { isLoading }] = useRegisterMutation();
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -185,15 +186,21 @@ export default function CreateUser() {
             />
           </div>
 
-          <div>
+          <div className='relative'>
             <label
               htmlFor='password'
               className='block text-sm font-medium text-slate-700 mb-1'
             >
               Password
             </label>
+            <span
+              className='absolute right-0 top-0 text-sm font-medium text-slate-700 cursor-pointer'
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? 'Hide' : 'Show'}
+            </span>
             <input
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               id='password'
               name='password'
               value={formData.password}
@@ -209,7 +216,7 @@ export default function CreateUser() {
             <button
               type='submit'
               disabled={isLoading}
-              className='flex-1 bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors'
+              className='flex-1 bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors cursor-pointer'
             >
               {isLoading ? 'Creating User...' : 'Create User'}
             </button>
@@ -217,7 +224,7 @@ export default function CreateUser() {
               type='button'
               onClick={handleBack}
               disabled={isLoading}
-              className='flex-1 bg-slate-600 text-white px-4 py-2 rounded font-medium hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors'
+              className='flex-1 bg-slate-600 text-white px-4 py-2 rounded font-medium hover:bg-slate-700 disabled:bg-slate-400 disabled:cursor-not-allowed transition-colors cursor-pointer'
             >
               Cancel
             </button>

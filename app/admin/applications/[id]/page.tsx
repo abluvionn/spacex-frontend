@@ -139,25 +139,33 @@ export default function ApplicationDetail() {
                 <label className='block text-sm font-medium text-slate-600 mb-1'>
                   Full Name
                 </label>
-                <p className='text-slate-800'>{application.fullName}</p>
+                <p className='text-slate-800 overflow-auto'>
+                  {application.fullName}
+                </p>
               </div>
               <div>
                 <label className='block text-sm font-medium text-slate-600 mb-1'>
                   Email
                 </label>
-                <p className='text-slate-800'>{application.email}</p>
+                <p className='text-slate-800 overflow-auto'>
+                  {application.email}
+                </p>
               </div>
               <div>
                 <label className='block text-sm font-medium text-slate-600 mb-1'>
                   Phone Number
                 </label>
-                <p className='text-slate-800'>{application.phoneNumber}</p>
+                <p className='text-slate-800 overflow-auto'>
+                  {application.phoneNumber}
+                </p>
               </div>
               <div>
                 <label className='block text-sm font-medium text-slate-600 mb-1'>
                   State
                 </label>
-                <p className='text-slate-800'>{application.state}</p>
+                <p className='text-slate-800 overflow-auto'>
+                  {application.state}
+                </p>
               </div>
             </div>
           </div>
@@ -178,7 +186,7 @@ export default function ApplicationDetail() {
                 <label className='block text-sm font-medium text-slate-600 mb-1'>
                   Driving Experience
                 </label>
-                <p className='text-slate-800'>
+                <p className='text-slate-800 overflow-auto'>
                   {application.drivingExperience}
                 </p>
               </div>
@@ -226,7 +234,7 @@ export default function ApplicationDetail() {
               <h2 className='text-lg font-semibold text-slate-800 mb-4'>
                 Comments
               </h2>
-              <p className='text-slate-800 whitespace-pre-wrap'>
+              <p className='text-slate-800 whitespace-pre-wrap overflow-auto'>
                 {application.comments}
               </p>
             </div>
@@ -294,8 +302,8 @@ export default function ApplicationDetail() {
             {isTogglingArchive
               ? 'Processing...'
               : application.archived
-              ? 'Unarchive Application'
-              : 'Archive Application'}
+                ? 'Unarchive Application'
+                : 'Archive Application'}
           </button>
         </div>
       </div>

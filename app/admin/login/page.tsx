@@ -8,6 +8,7 @@ export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const [login, { isLoading, isSuccess, data }] = useLoginMutation();
@@ -78,23 +79,31 @@ export default function AdminLoginPage() {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder='you@example.com'
+            autoComplete='email'
           />
         </label>
 
         <label
-          className='flex flex-col gap-1.5 text-[13px] text-[#94a3b8]'
+          className='flex flex-col gap-1.5 text-[13px] text-[#94a3b8] relative'
           htmlFor='password'
         >
           Password
           <input
             id='password'
             className='border text-sm px-3 py-2.5 rounded-lg border-solid border-[#e6edf3] text-black'
-            type='password'
+            type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder='••••••••'
+            autoComplete='current-password'
           />
+          <span
+            className='absolute right-0 cursor-pointer'
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </span>
         </label>
 
         {error && <div className='text-sm text-red-600 mt-1'>{error}</div>}

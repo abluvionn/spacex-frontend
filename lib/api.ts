@@ -42,7 +42,9 @@ const refreshToken = async (): Promise<string | null> => {
         // Refresh failed, clear storage and redirect to login
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/admin/login';
+        if (window.location.href !== '/admin/login') {
+          window.location.href = '/admin/login';
+        }
         return null;
       }
 
@@ -57,7 +59,9 @@ const refreshToken = async (): Promise<string | null> => {
       console.error('Token refresh failed:', error);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/admin/login';
+      if (window.location.href !== '/admin/login') {
+        window.location.href = '/admin/login';
+      }
       return null;
     } finally {
       isRefreshing = false;
