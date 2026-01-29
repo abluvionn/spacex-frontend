@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSubmitApplicationFormMutation } from '@/lib/api';
+import { toast, Toaster } from 'sonner';
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const Page = () => {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -69,7 +70,7 @@ const Page = () => {
     }
     try {
       await submitForm(form).unwrap();
-      alert('Application submitted successfully!');
+      toast.success('Application submitted successfully!');
       setFormData({
         fullName: '',
         phoneNumber: '',
@@ -91,12 +92,17 @@ const Page = () => {
       setResume(null);
     } catch (error) {
       console.error('Failed to submit application:', error);
-      alert('Failed to submit application. Please try again.');
+      toast.error('Failed to submit application. Please try again.');
     }
   };
 
   return (
     <section className='pt-[30px] px-5 max-w-[550px] lg:ps-[100px] lg:pt-[60px]'>
+      <Toaster
+        position='top-center'
+        richColors
+        toastOptions={{ className: '!text-base' }}
+      />
       <h1 className='font-poppins font-bold text-2xl lg:text-4xl text-[#383C3E]'>
         Application form
       </h1>
