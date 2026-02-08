@@ -40,19 +40,13 @@ export default function AdminLoginPage() {
       // success handled by effect
     } catch (err: unknown) {
       let message = 'Login failed';
-      if (err && typeof err === 'object') {
-        const anyErr = err as Record<string, unknown>;
-        const maybeData = anyErr.data as Record<string, unknown> | undefined;
-        if (maybeData && typeof maybeData.error === 'string') {
-          message = maybeData.error;
-        } else if (maybeData && typeof maybeData.message === 'string') {
-          message = maybeData.message;
-        } else {
-          const otherErr = anyErr['error'];
-          if (typeof otherErr === 'string') message = otherErr;
-          const otherMsg = anyErr['message'];
-          if (typeof otherMsg === 'string') message = otherMsg;
-        }
+      if (
+        err &&
+        typeof err === 'object' &&
+        'error' in err &&
+        typeof err.error === 'string'
+      ) {
+        message = err.error;
       }
       setError(message);
     }

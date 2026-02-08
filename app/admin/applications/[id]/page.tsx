@@ -85,21 +85,6 @@ export default function ApplicationDetail() {
     );
   }
 
-  const parseTruckTypes = () => {
-    if (typeof application.truckTypes === 'string') {
-      try {
-        return Object.entries(JSON.parse(application.truckTypes))
-          .filter(([, value]) => value)
-          .map(([key]) => key);
-      } catch {
-        return [];
-      }
-    }
-    return Array.isArray(application.truckTypes) ? application.truckTypes : [];
-  };
-
-  const truckTypes = parseTruckTypes();
-
   return (
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-3xl mx-auto bg-white p-6 rounded shadow'>
@@ -212,14 +197,14 @@ export default function ApplicationDetail() {
             <h2 className='text-lg font-semibold text-slate-800 mb-4'>
               Truck Types
             </h2>
-            {truckTypes.length > 0 ? (
+            {application.truckTypes.length > 0 ? (
               <div className='flex flex-wrap gap-2'>
-                {truckTypes.map((type) => (
+                {application.truckTypes.map((type) => (
                   <span
                     key={type}
                     className='inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded text-sm font-medium'
                   >
-                    {type.replace(/([A-Z])/g, ' $1').trim()}
+                    {type}
                   </span>
                 ))}
               </div>

@@ -8,7 +8,6 @@ import {
 import type {
   LoginRequest,
   LoginResponse,
-  FormResponse,
   GetApplicationsResponse,
   Application,
   LogoutResponse,
@@ -123,7 +122,7 @@ export const api = createApi({
         body,
       }),
     }),
-    submitApplicationForm: builder.mutation<FormResponse, FormData>({
+    submitApplicationForm: builder.mutation<unknown, FormData>({
       query: (formData) => ({
         url: 'applications',
         method: 'POST',
