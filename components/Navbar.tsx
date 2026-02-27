@@ -20,9 +20,9 @@ const Navbar = () => {
           <Image
             src='/images/logo.jpg'
             alt='SpaceX Logo'
-            width={137}
+            width={155}
             height={52}
-            className='w-[85px] h-[32px] lg:w-[137px] lg:h-[52px]'
+            className='w-[85px] h-[32px] lg:w-[155px] lg:h-[52px]'
           />
         </Link>
         <button
