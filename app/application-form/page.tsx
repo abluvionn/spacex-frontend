@@ -9,8 +9,8 @@ const Page = () => {
     fullName: '',
     phoneNumber: '',
     email: '',
-    cdlLicense: 'Select',
-    state: 'Select',
+    cdlLicense: '',
+    state: '',
     drivingExperience: '',
     truckTypes: {
       reefer: false,
@@ -82,8 +82,8 @@ const Page = () => {
         fullName: '',
         phoneNumber: '',
         email: '',
-        cdlLicense: 'Select',
-        state: 'Select',
+        cdlLicense: '',
+        state: '',
         drivingExperience: '',
         truckTypes: {
           reefer: false,
@@ -121,7 +121,7 @@ const Page = () => {
           required
           name='fullName'
           type='text'
-          placeholder='Full Name'
+          placeholder='Full Name *'
           value={formData.fullName}
           onChange={handleInputChange}
           className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
@@ -130,7 +130,7 @@ const Page = () => {
           required
           name='phoneNumber'
           type='tel'
-          placeholder='Phone Number'
+          placeholder='Phone Number *'
           value={formData.phoneNumber}
           onChange={handleInputChange}
           className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
@@ -139,13 +139,13 @@ const Page = () => {
           required
           name='email'
           type='email'
-          placeholder='email@gmail'
+          placeholder='E-mail *'
           value={formData.email}
           onChange={handleInputChange}
           className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
         />
         <label htmlFor='cdl-license' className='form-label mb-3'>
-          CDL License:
+          CDL License: *
         </label>
         <select
           required
@@ -155,7 +155,7 @@ const Page = () => {
           onChange={handleInputChange}
           className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
         >
-          <option value='Select' disabled>
+          <option value='' disabled>
             Select
           </option>
           <option value='ALS123456'>Class A</option>
@@ -164,7 +164,7 @@ const Page = () => {
           <option value='none'>None</option>
         </select>
         <label htmlFor='state' className='form-label mb-3'>
-          State
+          State *
         </label>
         <select
           required
@@ -174,7 +174,7 @@ const Page = () => {
           onChange={handleInputChange}
           className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
         >
-          <option value='Select' disabled>
+          <option value='' disabled>
             Select
           </option>
           <option value='Texas'>Texas</option>
@@ -183,7 +183,7 @@ const Page = () => {
           <option value='none'>None</option>
         </select>
         <label htmlFor='driving-experience' className='form-label mb-3'>
-          Driving Experience
+          Driving Experience *
         </label>
         <textarea
           required
