@@ -16,11 +16,11 @@ const Page = () => {
       reefer: false,
       smallTruck: false,
       carCarrier: false,
-      liveSock: false,
+      liveStock: false,
       semiTrailer: false,
       tankTruck: false,
     },
-    longHaulTrips: '',
+    longHaulTrips: false,
     comments: '',
   });
   const [resume, setResume] = useState<File | null>(null);
@@ -32,7 +32,14 @@ const Page = () => {
     >,
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'longHaulTrips') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value === 'yes' ? true : false,
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +70,7 @@ const Page = () => {
     form.append('state', formData.state);
     form.append('drivingExperience', formData.drivingExperience);
     form.append('truckTypes', JSON.stringify(formData.truckTypes));
-    form.append('longHaulTrips', formData.longHaulTrips);
+    form.append('longHaulTrips', JSON.stringify(formData.longHaulTrips));
     form.append('comments', formData.comments);
     if (resume) {
       form.append('resume', resume);
@@ -82,11 +89,11 @@ const Page = () => {
           reefer: false,
           smallTruck: false,
           carCarrier: false,
-          liveSock: false,
+          liveStock: false,
           semiTrailer: false,
           tankTruck: false,
         },
-        longHaulTrips: '',
+        longHaulTrips: false,
         comments: '',
       });
       setResume(null);
@@ -170,9 +177,9 @@ const Page = () => {
           <option value='Select' disabled>
             Select
           </option>
-          <option value='texas'>Texas</option>
-          <option value='california'>California</option>
-          <option value='washington'>Washington</option>
+          <option value='Texas'>Texas</option>
+          <option value='California'>California</option>
+          <option value='Washington'>Washington</option>
           <option value='none'>None</option>
         </select>
         <label htmlFor='driving-experience' className='form-label mb-3'>
@@ -223,11 +230,11 @@ const Page = () => {
         <div className='flex items-center gap-2 mb-1'>
           <input
             type='checkbox'
-            id='truck-liveSock'
-            checked={formData.truckTypes.liveSock}
+            id='truck-liveStock'
+            checked={formData.truckTypes.liveStock}
             onChange={handleCheckboxChange}
           />
-          <label htmlFor='truck-liveSock' className='form-label'>
+          <label htmlFor='truck-liveStock' className='form-label'>
             Live Stock
           </label>
         </div>
@@ -264,7 +271,7 @@ const Page = () => {
               name='longHaulTrips'
               id='trips-yes'
               value='yes'
-              checked={formData.longHaulTrips === 'yes'}
+              checked={formData.longHaulTrips === true}
               onChange={handleInputChange}
             />
             <label htmlFor='trips-yes' className='form-label'>
@@ -277,7 +284,7 @@ const Page = () => {
               name='longHaulTrips'
               id='trips-no'
               value='no'
-              checked={formData.longHaulTrips === 'no'}
+              checked={formData.longHaulTrips === false}
               onChange={handleInputChange}
             />
             <label htmlFor='trips-no' className='form-label'>

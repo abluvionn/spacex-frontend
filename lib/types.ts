@@ -44,7 +44,7 @@ export interface Application {
   state: string;
   drivingExperience: string;
   truckTypes: string[];
-  longHaulTrips: 'yes' | 'no';
+  longHaulTrips: boolean;
   archived: boolean;
   createdAt: string;
   updatedAt: string;

@@ -172,12 +172,12 @@ export default function AdminDashboard() {
                       <td className='px-4 py-2 text-sm text-slate-700'>
                         <span
                           className={
-                            app.longHaulTrips === 'yes'
+                            app.longHaulTrips 
                               ? 'text-green-600'
                               : 'text-slate-600'
                           }
                         >
-                          {app.longHaulTrips}
+                          {app.longHaulTrips ? 'Yes' : 'No'}
                         </span>
                       </td>
                       <td className='px-4 py-2 text-sm text-slate-700'>

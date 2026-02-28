@@ -181,12 +181,12 @@ export default function ApplicationDetail() {
                 </label>
                 <p
                   className={`text-slate-800 font-medium ${
-                    application.longHaulTrips === 'yes'
+                    application.longHaulTrips
                       ? 'text-green-600'
                       : 'text-slate-600'
                   }`}
                 >
-                  {application.longHaulTrips === 'yes' ? 'Yes' : 'No'}
+                  {application.longHaulTrips ? 'Yes' : 'No'}
                 </p>
               </div>
             </div>
