@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useSubmitApplicationFormMutation } from '@/lib/api';
 import { toast, Toaster } from 'sonner';
 
@@ -24,6 +24,7 @@ const Page = () => {
     comments: '',
   });
   const [resume, setResume] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [submitForm, { isLoading }] = useSubmitApplicationFormMutation();
 
   const handleInputChange = (
@@ -57,6 +58,13 @@ const Page = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
       setResume(e.target.files[0]);
+    }
+  };
+
+  const handleClearFile = () => {
+    setResume(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
     }
   };
 
@@ -97,9 +105,18 @@ const Page = () => {
         comments: '',
       });
       setResume(null);
-    } catch (error) {
-      console.error('Failed to submit application:', error);
-      toast.error('Failed to submit application. Please try again.');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      let errorMessage = 'Failed to submit application.';
+      if (
+        error.data &&
+        typeof error.data === 'object' &&
+        'error' in error.data
+      ) {
+        errorMessage += ` ${error.data.error}`;
+      }
+      console.error(error);
+      toast.error(errorMessage);
     }
   };
 
@@ -300,12 +317,28 @@ const Page = () => {
           onChange={handleInputChange}
           className='form-comments p-3 border border-[#737B7D] rounded mb-6'
         ></textarea>
-        <label
-          htmlFor='resume'
-          className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm lg:text-base'
-        >
-          Upload Resume
-        </label>
+        {!resume && (
+          <label
+            htmlFor='resume'
+            className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm lg:text-base'
+          >
+            Upload Resume
+          </label>
+        )}
+        {resume && (
+          <div className='flex items-center gap-2 mt-2 font-inter'>
+            <p className='text-sm'>
+              Selected file: {resume.name}
+            </p>
+            <button
+              type='button'
+              onClick={handleClearFile}
+              className='text-accent text-sm underline cursor-pointer'
+            >
+              Clear
+            </button>
+          </div>
+        )}
         <p className='font-inter text-[#8E8E8E] text-xs mt-3 mb-10 lg:text-sm'>
           Attach file. File size of your documents should not exceed 10MB
         </p>
@@ -314,6 +347,7 @@ const Page = () => {
           name='resume'
           id='resume'
           hidden
+          ref={fileInputRef}
           onChange={handleFileChange}
         />
         <button

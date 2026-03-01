@@ -49,6 +49,10 @@ export interface Application {
   createdAt: string;
   updatedAt: string;
   comments?: string;
+  // server may include the original filename of the uploaded resume
+  resumeFilename?: string;
+  // virtual url for downloading the resume, provided by backend
+  resumeUrl?: string | null;
 }
 
 export interface PaginationInfo {

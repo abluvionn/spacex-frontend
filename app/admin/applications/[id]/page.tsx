@@ -7,6 +7,8 @@ import {
   useToggleApplicationArchiveMutation,
   useLogoutMutation,
 } from '@/lib/api';
+import { API_BASE_URL } from '@/lib/constants';
+import { toast } from 'sonner';
 
 export default function ApplicationDetail() {
   const router = useRouter();
@@ -59,6 +61,38 @@ export default function ApplicationDetail() {
       refetch();
     } catch (error) {
       console.error('Failed to toggle archive status:', error);
+      toast.error('Failed to update application status. Please try again.');
+    }
+  }
+
+  async function handleDownloadResume() {
+    if (!application?.resumeUrl) return;
+    try {
+      const token =
+        typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+      const headers: HeadersInit = {};
+      if (token) headers.authorization = `Bearer ${token}`;
+      const res = await fetch(API_BASE_URL + application.resumeUrl, {
+        method: 'GET',
+        headers,
+        // include credentials if server uses cookies
+        credentials: 'include',
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to download: ${res.status}`);
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = application.resumeFilename || 'resume';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error fetching resume:', err);
+      toast.error('Failed to download resume. Please try again later.');
     }
   }
 
@@ -224,6 +258,26 @@ export default function ApplicationDetail() {
               </p>
             </div>
           )}
+
+          {/* Resume download */}
+          <div className='border-b pb-6'>
+            <h2 className='text-lg font-semibold text-slate-800 mb-4'>
+              Resume
+            </h2>
+            {application.resumeUrl ? (
+              <button
+                onClick={handleDownloadResume}
+                className='text-blue-600 hover:underline cursor-pointer'
+              >
+                Download
+                {application.resumeFilename
+                  ? ` ${application.resumeFilename}`
+                  : ''}
+              </button>
+            ) : (
+              <p className='text-slate-600'>No resume uploaded</p>
+            )}
+          </div>
 
           {/* Status and Dates */}
           <div>
