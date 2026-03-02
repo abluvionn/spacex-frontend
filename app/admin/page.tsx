@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useGetApplicationsQuery, useLogoutMutation } from '@/lib/api';
+import DownloadCSVButton from '@/components/DownloadCSVButton';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -66,9 +67,9 @@ export default function AdminDashboard() {
   return (
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-6xl mx-auto bg-white p-6 rounded shadow'>
-        <div className='flex items-center justify-between mb-6'>
+        <div className='flex flex-col lg:flex-row gap-4 items-center justify-between mb-6'>
           <h1 className='text-2xl font-semibold'>Applications</h1>
-          <div className='flex gap-2'>
+          <div className='flex flex-wrap gap-2'>
             <button
               onClick={handleRefresh}
               disabled={isLoading}
@@ -172,7 +173,7 @@ export default function AdminDashboard() {
                       <td className='px-4 py-2 text-sm text-slate-700'>
                         <span
                           className={
-                            app.longHaulTrips 
+                            app.longHaulTrips
                               ? 'text-green-600'
                               : 'text-slate-600'
                           }
@@ -201,16 +202,17 @@ export default function AdminDashboard() {
             </div>
 
             {pagination && (
-              <div className='mt-6 flex items-center justify-between'>
+              <div className='mt-6 flex flex-col gap-5 lg:flex-row items-center justify-between'>
                 <div className='text-sm text-slate-600'>
                   Showing {(pagination.page - 1) * pagination.limit + 1} to{' '}
                   {Math.min(
                     pagination.page * pagination.limit,
-                    pagination.total
+                    pagination.total,
                   )}{' '}
                   of {pagination.total} applications
                 </div>
-                <div className='flex gap-2'>
+                <DownloadCSVButton />
+                <div className='flex flex-wrap gap-2'>
                   <button
                     onClick={() => setPage(Math.max(1, page - 1))}
                     disabled={page === 1}

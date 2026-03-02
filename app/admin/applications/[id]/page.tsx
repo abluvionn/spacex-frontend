@@ -122,7 +122,7 @@ export default function ApplicationDetail() {
   return (
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-3xl mx-auto bg-white p-6 rounded shadow'>
-        <div className='flex items-center justify-between mb-6 flex-wrap'>
+        <div className='flex items-center justify-between mb-6 flex-wrap gap-4'>
           <div className='flex items-center gap-3'>
             <h1 className='text-2xl font-semibold'>Application Details</h1>
             {application.archived && (

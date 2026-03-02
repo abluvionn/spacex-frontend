@@ -151,6 +151,12 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
+    getAllApplications: builder.query<Application[], void>({
+      query: () => ({
+        url: 'applications/all',
+        method: 'GET',
+      }),
+    }),
     toggleApplicationArchive: builder.mutation<Application, string>({
       query: (id) => ({
         url: `applications/${id}/toggle-archive`,
@@ -172,6 +178,7 @@ export const {
   useSubmitApplicationFormMutation,
   useGetApplicationsQuery,
   useGetApplicationByIdQuery,
+  useLazyGetAllApplicationsQuery,
   useToggleApplicationArchiveMutation,
   useLogoutMutation,
 } = api;
