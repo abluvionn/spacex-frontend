@@ -35,21 +35,15 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError(null);
 
-    try {
-      await login({ email, password }).unwrap();
-      // success handled by effect
-    } catch (err: unknown) {
-      let message = 'Login failed';
-      if (
-        err &&
-        typeof err === 'object' &&
-        'error' in err &&
-        typeof err.error === 'string'
-      ) {
-        message = err.error;
-      }
-      setError(message);
-    }
+    await login({ email, password })
+      .unwrap()
+      .catch((err) => {
+        if (err && err.data) {
+          setError(err.data.error);
+        } else {
+          setError('Login failed. Please try again.');
+        }
+      });
   }
 
   return (

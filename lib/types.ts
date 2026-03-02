@@ -35,6 +35,8 @@ export interface LoginError extends GlobalError {
   };
 }
 
+export type AppStatus = 'pending' | 'reviewing' | 'rejected' | 'accepted';
+
 export interface Application {
   _id: string;
   fullName: string;
@@ -45,10 +47,10 @@ export interface Application {
   drivingExperience: string;
   truckTypes: string[];
   longHaulTrips: boolean;
-  archived: boolean;
   createdAt: string;
   updatedAt: string;
   comments?: string;
+  status: AppStatus;
   // server may include the original filename of the uploaded resume
   resumeFilename?: string;
   // virtual url for downloading the resume, provided by backend

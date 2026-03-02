@@ -13,6 +13,7 @@ import type {
   LogoutResponse,
   RegisterRequest,
   User,
+  AppStatus,
 } from '@/lib/types';
 import { API_BASE_URL } from './constants';
 
@@ -157,10 +158,14 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
-    toggleApplicationArchive: builder.mutation<Application, string>({
-      query: (id) => ({
-        url: `applications/${id}/toggle-archive`,
+    updateApplicationStatus: builder.mutation<
+      Application,
+      { id: string; status: AppStatus }
+    >({
+      query: ({ id, status }) => ({
+        url: `applications/${id}/status`,
         method: 'PATCH',
+        body: { status },
       }),
     }),
     logout: builder.mutation<LogoutResponse, void>({
@@ -179,6 +184,6 @@ export const {
   useGetApplicationsQuery,
   useGetApplicationByIdQuery,
   useLazyGetAllApplicationsQuery,
-  useToggleApplicationArchiveMutation,
+  useUpdateApplicationStatusMutation,
   useLogoutMutation,
 } = api;

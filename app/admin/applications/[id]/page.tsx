@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import {
   useGetApplicationByIdQuery,
-  useToggleApplicationArchiveMutation,
+  useUpdateApplicationStatusMutation,
   useLogoutMutation,
 } from '@/lib/api';
 import { API_BASE_URL } from '@/lib/constants';
 import { toast } from 'sonner';
+import { AppStatus } from '@/lib/types';
 
 export default function ApplicationDetail() {
   const router = useRouter();
@@ -21,8 +22,8 @@ export default function ApplicationDetail() {
     isLoading,
     refetch,
   } = useGetApplicationByIdQuery(applicationId, { skip: !applicationId });
-  const [toggleApplicationArchive, { isLoading: isTogglingArchive }] =
-    useToggleApplicationArchiveMutation();
+  const [updateApplicationStatus, { isLoading: isUpdatingStatus }] =
+    useUpdateApplicationStatusMutation();
   const [logout] = useLogoutMutation();
 
   useEffect(() => {
@@ -53,14 +54,17 @@ export default function ApplicationDetail() {
     router.back();
   }
 
-  async function handleToggleArchive() {
+  async function handleUpdateStatus(status: AppStatus) {
     if (!application) return;
     try {
-      await toggleApplicationArchive(applicationId).unwrap();
+      await updateApplicationStatus({
+        id: applicationId,
+        status: status,
+      }).unwrap();
       // Refetch the application data to update the UI
       refetch();
     } catch (error) {
-      console.error('Failed to toggle archive status:', error);
+      console.error('Failed to update application status:', error);
       toast.error('Failed to update application status. Please try again.');
     }
   }
@@ -127,11 +131,11 @@ export default function ApplicationDetail() {
         <div className='flex items-center justify-between mb-6 flex-wrap gap-4'>
           <div className='flex items-center gap-3'>
             <h1 className='text-2xl font-semibold'>Application Details</h1>
-            {application.archived && (
-              <span className='inline-block bg-red-100 text-red-700 px-3 py-1 rounded text-sm font-semibold'>
-                ARCHIVED
-              </span>
-            )}
+            <span
+              className={`inline-block px-3 py-1 rounded text-sm font-semibold uppercase status-${application.status}`}
+            >
+              {application.status}
+            </span>
           </div>
           <div className='flex gap-2 flex-wrap'>
             <button
@@ -292,13 +296,9 @@ export default function ApplicationDetail() {
                   Status
                 </label>
                 <span
-                  className={`inline-block px-3 py-1 rounded text-sm font-semibold ${
-                    application.archived
-                      ? 'bg-red-100 text-red-700'
-                      : 'bg-green-100 text-green-700'
-                  }`}
+                  className={`inline-block px-3 py-1 rounded text-sm font-semibold capitalize status-${application.status}`}
                 >
-                  {application.archived ? 'Archived' : 'Active'}
+                  {application.status}
                 </span>
               </div>
               <div>
@@ -329,23 +329,21 @@ export default function ApplicationDetail() {
           </div>
         </div>
 
-        {/* Archive Toggle Button */}
         <div className='mt-8 pt-6 border-t border-slate-200'>
-          <button
-            onClick={handleToggleArchive}
-            disabled={isTogglingArchive}
-            className={`cursor-pointer px-4 py-2 rounded font-medium text-white transition-colors ${
-              application.archived
-                ? 'bg-green-600 hover:bg-green-700 disabled:bg-green-400'
-                : 'bg-yellow-600 hover:bg-yellow-700 disabled:bg-yellow-400'
-            } disabled:cursor-not-allowed`}
+          <label>
+            {isUpdatingStatus ? 'Updating...' : 'Update Status'}
+          </label>
+          <select
+            id='app-status'
+            value={application.status}
+            onChange={(e) => handleUpdateStatus(e.target.value as AppStatus)}
+            className='mt-2 w-full p-2 border border-slate-300 rounded-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:border-slate-400'
+            disabled={isUpdatingStatus}
           >
-            {isTogglingArchive
-              ? 'Processing...'
-              : application.archived
-                ? 'Unarchive Application'
-                : 'Archive Application'}
-          </button>
+            <option value='reviewing'>Reviewing</option>
+            <option value='rejected'>Rejected</option>
+            <option value='accepted'>Accepted</option>
+          </select>
         </div>
       </div>
     </div>

@@ -39,4 +39,16 @@ html {
   .faq-question.active {
     @apply bg-[#090A3F] text-white;
   }
+  .status-pending {
+    @apply bg-yellow-100 text-yellow-700;
+  }
+  .status-reviewing {
+    @apply bg-blue-100 text-blue-700;
+  }
+  .status-accepted {
+    @apply bg-green-100 text-green-700;
+  }
+  .status-rejected {
+    @apply bg-red-100 text-red-700;
+  }
 }
