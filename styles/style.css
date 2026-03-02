@@ -8,11 +8,6 @@
   font-variant-caps: all-small-caps;
 }
 
-.feature-banner:hover .feature-banner-text,
-.feature-banner:hover .btn-base {
-  display: block;
-}
-
 .feature-banner-1 {
   background-image:
     linear-gradient(rgba(40, 66, 131, 0.7) 100%, rgba(40, 66, 131, 0.7) 100%),
@@ -153,6 +148,10 @@
   }
   .form-label {
     font-size: 16px;
+  }
+  .feature-banner:hover .feature-banner-text,
+  .feature-banner:hover .btn-base {
+    display: block;
   }
 }
 
