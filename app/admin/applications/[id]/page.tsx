@@ -70,22 +70,24 @@ export default function ApplicationDetail() {
     try {
       const token =
         typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-      const headers: HeadersInit = {};
-      if (token) headers.authorization = `Bearer ${token}`;
       const res = await fetch(API_BASE_URL + application.resumeUrl, {
         method: 'GET',
-        headers,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         // include credentials if server uses cookies
         credentials: 'include',
       });
       if (!res.ok) {
-        throw new Error(`Failed to download: ${res.status}`);
+        console.error('Failed to fetch resume:', res);
+        toast.error(`Failed to download: ${res.status}`);
+        return;
       }
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = application.resumeFilename || 'resume';
+      a.download = `${application.createdAt.split('T')[0]}-${application.fullName}`;
       document.body.appendChild(a);
       a.click();
       a.remove();
