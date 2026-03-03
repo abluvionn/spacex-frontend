@@ -5,17 +5,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useGetApplicationsQuery, useLogoutMutation } from '@/lib/api';
 import DownloadCSVButton from '@/components/DownloadCSVButton';
+import { AppStatus } from '@/lib/types';
 
 export default function AdminDashboard() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
+  const [filter, setFilter] = useState<AppStatus | null>(null);
   const [page, setPage] = useState(1);
   const {
     data: applicationsData,
     isLoading,
     error,
     refetch,
-  } = useGetApplicationsQuery({ page, limit: 10 });
+  } = useGetApplicationsQuery({ page, limit: 10, status: filter });
   const [logout] = useLogoutMutation();
 
   useEffect(() => {
@@ -59,6 +61,11 @@ export default function AdminDashboard() {
     refetch();
   }
 
+  function handleFilterChange(newFilter: AppStatus | null) {
+    setFilter(newFilter);
+    setPage(1); // Reset to first page when filter changes
+  }
+
   if (checking) return null;
 
   const applications = applicationsData?.data || [];
@@ -69,7 +76,22 @@ export default function AdminDashboard() {
       <div className='w-full max-w-6xl mx-auto bg-white p-6 rounded shadow'>
         <div className='flex flex-col lg:flex-row gap-4 items-center justify-between mb-6'>
           <h1 className='text-2xl font-semibold'>Applications</h1>
-          <div className='flex flex-wrap gap-2'>
+          <div className='flex flex-wrap gap-2 items-center'>
+            <label htmlFor='filter'>Filter by status:</label>
+            <select
+              id='filter'
+              value={filter || ''}
+              onChange={(e) =>
+                handleFilterChange(e.target.value as AppStatus | null)
+              }
+              className='text-sm border border-slate-600 p-1.5 rounded cursor-pointer'
+            >
+              <option value=''>All</option>
+              <option value='reviewing'>Reviewing</option>
+              <option value='pending'>Pending</option>
+              <option value='accepted'>Accepted</option>
+              <option value='rejected'>Rejected</option>
+            </select>
             <button
               onClick={handleRefresh}
               disabled={isLoading}

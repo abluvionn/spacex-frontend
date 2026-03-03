@@ -132,12 +132,13 @@ export const api = createApi({
     }),
     getApplications: builder.query<
       GetApplicationsResponse,
-      { page?: number; limit?: number } | void
+      { page?: number; limit?: number; status: AppStatus | null } | void
     >({
       query: (params) => {
         const queryParams = new URLSearchParams();
         if (params?.page) queryParams.append('page', String(params.page));
         if (params?.limit) queryParams.append('limit', String(params.limit));
+        if (params?.status) queryParams.append('status', String(params.status));
         return {
           url: `applications${
             queryParams.toString() ? '?' + queryParams.toString() : ''

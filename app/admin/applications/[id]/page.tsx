@@ -330,9 +330,7 @@ export default function ApplicationDetail() {
         </div>
 
         <div className='mt-8 pt-6 border-t border-slate-200'>
-          <label>
-            {isUpdatingStatus ? 'Updating...' : 'Update Status'}
-          </label>
+          <label>{isUpdatingStatus ? 'Updating...' : 'Update Status'}</label>
           <select
             id='app-status'
             value={application.status}
@@ -340,6 +338,9 @@ export default function ApplicationDetail() {
             className='mt-2 w-full p-2 border border-slate-300 rounded-md cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 hover:border-slate-400'
             disabled={isUpdatingStatus}
           >
+            <option value='pending' disabled>
+              Pending
+            </option>
             <option value='reviewing'>Reviewing</option>
             <option value='rejected'>Rejected</option>
             <option value='accepted'>Accepted</option>
