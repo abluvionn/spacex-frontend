@@ -197,7 +197,7 @@ export default function AdminDashboard() {
                           className={
                             app.longHaulTrips
                               ? 'text-green-600'
-                              : 'text-slate-600'
+                              : 'text-red-600'
                           }
                         >
                           {app.longHaulTrips ? 'Yes' : 'No'}
