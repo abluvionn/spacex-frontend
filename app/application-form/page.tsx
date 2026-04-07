@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import { useSubmitApplicationFormMutation } from '@/lib/api';
 import { toast, Toaster } from 'sonner';
+import { CDL_CLASSES, US_STATES } from '@/lib/constants';
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -175,9 +176,11 @@ const Page = () => {
           <option value='' disabled>
             Select
           </option>
-          <option value='ALS123456'>Class A</option>
-          <option value='BTC468706'>Class B</option>
-          <option value='CBE795168'>Class C</option>
+          {CDL_CLASSES.map((cdl) => (
+            <option value={cdl.value} key={cdl.value}>
+              {cdl.label}
+            </option>
+          ))}
           <option value='none'>None</option>
         </select>
         <label htmlFor='state' className='form-label mb-3'>
@@ -194,9 +197,11 @@ const Page = () => {
           <option value='' disabled>
             Select
           </option>
-          <option value='Texas'>Texas</option>
-          <option value='California'>California</option>
-          <option value='Washington'>Washington</option>
+          {US_STATES.map((state) => (
+            <option value={state} key={state}>
+              {state}
+            </option>
+          ))}
           <option value='none'>None</option>
         </select>
         <label htmlFor='driving-experience' className='form-label mb-3'>
@@ -327,9 +332,7 @@ const Page = () => {
         )}
         {resume && (
           <div className='flex items-center gap-2 mt-2 font-inter'>
-            <p className='text-sm'>
-              Selected file: {resume.name}
-            </p>
+            <p className='text-sm'>Selected file: {resume.name}</p>
             <button
               type='button'
               onClick={handleClearFile}

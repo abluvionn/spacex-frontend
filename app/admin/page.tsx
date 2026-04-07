@@ -160,7 +160,7 @@ export default function AdminDashboard() {
                       CDL License
                     </th>
                     <th className='px-4 py-2 text-left text-sm font-semibold text-slate-700'>
-                      Long Haul
+                      Long Haul Trips
                     </th>
                     <th className='px-4 py-2 text-left text-sm font-semibold text-slate-700'>
                       Submitted
