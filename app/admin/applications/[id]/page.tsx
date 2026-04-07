@@ -8,7 +8,7 @@ import {
   useLogoutMutation,
 } from '@/lib/api';
 import { API_BASE_URL } from '@/lib/constants';
-import { toast } from 'sonner';
+import { toast, Toaster } from 'sonner';
 import { AppStatus } from '@/lib/types';
 
 export default function ApplicationDetail() {
@@ -63,6 +63,11 @@ export default function ApplicationDetail() {
       }).unwrap();
       // Refetch the application data to update the UI
       refetch();
+      if (status === 'accepted') {
+        toast.success('Acceptance email was sent to driver.');
+      } else if (status === 'rejected') {
+        toast.success('Rejection email was sent to driver.');
+      }
     } catch (error) {
       console.error('Failed to update application status:', error);
       toast.error('Failed to update application status. Please try again.');
@@ -127,6 +132,11 @@ export default function ApplicationDetail() {
 
   return (
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
+      <Toaster
+        position='top-center'
+        richColors
+        toastOptions={{ className: '!text-base' }}
+      />
       <div className='w-full max-w-3xl mx-auto bg-white p-6 rounded shadow'>
         <div className='flex items-center justify-between mb-6 flex-wrap gap-4'>
           <div className='flex items-center gap-3'>
