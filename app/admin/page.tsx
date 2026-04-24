@@ -40,7 +40,7 @@ export default function AdminDashboard() {
       console.error('Logout failed:', error);
     } finally {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('admin');
       router.push('/admin/login');
     }
   }
@@ -53,8 +53,8 @@ export default function AdminDashboard() {
     router.push(`/admin/applications/${id}`);
   }
 
-  function handleCreateUserClick() {
-    router.push('/admin/create-user');
+  function handleCreateAdminClick() {
+    router.push('/admin/create-admin');
   }
 
   function handleRefresh() {
@@ -106,10 +106,10 @@ export default function AdminDashboard() {
               />
             </button>
             <button
-              onClick={handleCreateUserClick}
+              onClick={handleCreateAdminClick}
               className='text-sm bg-green-600 text-white px-3 py-1.5 rounded cursor-pointer hover:bg-green-700'
             >
-              Create User
+              Create Admin
             </button>
             <button
               onClick={handleProfileClick}

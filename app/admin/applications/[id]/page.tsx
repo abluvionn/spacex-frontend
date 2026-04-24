@@ -45,7 +45,7 @@ export default function ApplicationDetail() {
       console.error('Logout failed:', error);
     } finally {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('admin');
       router.push('/admin/login');
     }
   }

@@ -3,11 +3,11 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useLogoutMutation } from '@/lib/api';
-import type { User } from '@/lib/types';
+import type { Admin } from '@/lib/types';
 
 export default function AdminProfile() {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [admin, setAdmin] = useState<Admin | null>(null);
   const [checking, setChecking] = useState(true);
   const [logout] = useLogoutMutation();
 
@@ -20,14 +20,14 @@ export default function AdminProfile() {
       return;
     }
 
-    const raw = localStorage.getItem('user');
+    const raw = localStorage.getItem('admin');
     if (raw) {
       try {
-        const parsed = JSON.parse(raw) as User;
+        const parsed = JSON.parse(raw) as Admin;
         // avoid synchronous setState within effect
-        setTimeout(() => setUser(parsed), 0);
+        setTimeout(() => setAdmin(parsed), 0);
       } catch {
-        setTimeout(() => setUser(null), 0);
+        setTimeout(() => setAdmin(null), 0);
       }
     }
 
@@ -42,7 +42,7 @@ export default function AdminProfile() {
       console.error('Logout failed:', error);
     } finally {
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('admin');
       router.push('/admin/login');
     }
   }
@@ -74,25 +74,25 @@ export default function AdminProfile() {
           </div>
         </div>
 
-        {user ? (
+        {admin ? (
           <div className='mt-4 space-y-2 text-sm text-slate-700'>
             <div>
-              <strong>Full name:</strong> {user.fullName}
+              <strong>Full name:</strong> {admin.fullName}
             </div>
             <div>
-              <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> {admin.email}
             </div>
             <div>
-              <strong>Phone:</strong> {user.phone}
+              <strong>Phone:</strong> {admin.phone}
             </div>
             <div>
               <strong>Account created:</strong>{' '}
-              {new Date(user.createdAt).toLocaleString()}
+              {new Date(admin.createdAt).toLocaleString()}
             </div>
           </div>
         ) : (
           <div className='mt-4 text-sm text-slate-600'>
-            No user info available.
+            No admin info available.
           </div>
         )}
       </div>

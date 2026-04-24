@@ -10,7 +10,7 @@ export interface RegisterRequest {
   phone: string;
 }
 
-export interface User {
+export interface Admin {
   email: string;
   _id: string;
   fullName: string;
@@ -20,7 +20,7 @@ export interface User {
 }
 
 export interface LoginResponse {
-  user: User;
+  admin: Admin;
   accessToken: string;
 }
 

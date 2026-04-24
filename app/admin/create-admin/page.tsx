@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRegisterMutation } from '@/lib/api';
 
-export default function CreateUser() {
+export default function CreateAdmin() {
   const router = useRouter();
   const [checking, setChecking] = useState(true);
   const [register, { isLoading }] = useRegisterMutation();
@@ -92,7 +92,7 @@ export default function CreateUser() {
       const errorMessage =
         error?.data?.message ||
         error?.data?.error ||
-        'Failed to create user. Please try again.';
+        'Failed to create admin. Please try again.';
       setError(errorMessage);
     }
   }
@@ -107,7 +107,7 @@ export default function CreateUser() {
     <div className='min-h-[70vh] px-4 py-12 bg-[#f6f8fb]'>
       <div className='w-full max-w-2xl mx-auto bg-white p-6 rounded shadow'>
         <div className='flex items-center justify-between mb-6'>
-          <h1 className='text-2xl font-semibold'>Create New User</h1>
+          <h1 className='text-2xl font-semibold'>Create New Admin</h1>
           <button
             onClick={handleBack}
             className='text-sm bg-slate-600 text-white px-3 py-1.5 rounded cursor-pointer hover:bg-slate-700'
@@ -118,7 +118,7 @@ export default function CreateUser() {
 
         {success && (
           <div className='mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded'>
-            User created successfully! Redirecting to dashboard...
+            Admin created successfully! Redirecting to dashboard...
           </div>
         )}
 
@@ -218,7 +218,7 @@ export default function CreateUser() {
               disabled={isLoading}
               className='flex-1 bg-blue-600 text-white px-4 py-2 rounded font-medium hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed transition-colors cursor-pointer'
             >
-              {isLoading ? 'Creating User...' : 'Create User'}
+              {isLoading ? 'Creating Admin...' : 'Create Admin'}
             </button>
             <button
               type='button'

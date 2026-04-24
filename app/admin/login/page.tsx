@@ -19,9 +19,9 @@ export default function AdminLoginPage() {
       if (token) {
         localStorage.setItem('token', token);
       }
-      if (data.user) {
+      if (data.admin) {
         try {
-          localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('admin', JSON.stringify(data.admin));
         } catch {
           // ignore
         }

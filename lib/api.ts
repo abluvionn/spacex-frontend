@@ -12,7 +12,7 @@ import type {
   Application,
   LogoutResponse,
   RegisterRequest,
-  User,
+  Admin,
   AppStatus,
 } from '@/lib/types';
 import { API_BASE_URL } from './constants';
@@ -41,7 +41,7 @@ const refreshToken = async (): Promise<string | null> => {
       if (!response.ok) {
         // Refresh failed, clear storage and redirect to login
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
+        localStorage.removeItem('admin');
         if (window.location.href !== '/admin/login') {
           window.location.href = '/admin/login';
         }
@@ -58,7 +58,7 @@ const refreshToken = async (): Promise<string | null> => {
     } catch (error) {
       console.error('Token refresh failed:', error);
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('admin');
       if (window.location.href !== '/admin/login') {
         window.location.href = '/admin/login';
       }
@@ -116,7 +116,7 @@ export const api = createApi({
         body,
       }),
     }),
-    register: builder.mutation<User, RegisterRequest>({
+    register: builder.mutation<Admin, RegisterRequest>({
       query: (body) => ({
         url: 'auth/register',
         method: 'POST',
@@ -125,7 +125,7 @@ export const api = createApi({
     }),
     submitApplicationForm: builder.mutation<unknown, FormData>({
       query: (formData) => ({
-        url: 'applications',
+        url: 'userApplications',
         method: 'POST',
         body: formData,
       }),
@@ -140,7 +140,7 @@ export const api = createApi({
         if (params?.limit) queryParams.append('limit', String(params.limit));
         if (params?.status) queryParams.append('status', String(params.status));
         return {
-          url: `applications${
+          url: `userApplications${
             queryParams.toString() ? '?' + queryParams.toString() : ''
           }`,
           method: 'GET',
@@ -149,13 +149,13 @@ export const api = createApi({
     }),
     getApplicationById: builder.query<Application, string>({
       query: (id) => ({
-        url: `applications/${id}`,
+        url: `userApplications/${id}`,
         method: 'GET',
       }),
     }),
     getAllApplications: builder.query<Application[], void>({
       query: () => ({
-        url: 'applications/all',
+        url: 'userApplications/all',
         method: 'GET',
       }),
     }),
@@ -164,7 +164,7 @@ export const api = createApi({
       { id: string; status: AppStatus }
     >({
       query: ({ id, status }) => ({
-        url: `applications/${id}/status`,
+        url: `userApplications/${id}/status`,
         method: 'PATCH',
         body: { status },
       }),
