@@ -183,13 +183,6 @@ export const api = createApi({
         body,
       }),
     }),
-    submitApplicationForm: builder.mutation<unknown, FormData>({
-      query: (formData) => ({
-        url: 'userApplications',
-        method: 'POST',
-        body: formData,
-      }),
-    }),
     getApplications: builder.query<
       GetApplicationsResponse,
       { page?: number; limit?: number; status: AppStatus | null } | void
@@ -306,7 +299,6 @@ export const {
   // Admin hooks
   useLoginMutation,
   useRegisterMutation,
-  useSubmitApplicationFormMutation,
   useGetApplicationsQuery,
   useGetApplicationByIdQuery,
   useLazyGetAllApplicationsQuery,

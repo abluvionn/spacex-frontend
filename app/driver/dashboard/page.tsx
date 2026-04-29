@@ -10,8 +10,9 @@ import {
   useDriverUpdateApplicationMutation,
 } from '@/lib/api';
 import type { Driver, DriverApplication } from '@/lib/types';
-import { API_BASE_URL } from '@/lib/constants';
+import { API_BASE_URL, CDL_CLASSES, US_STATES } from '@/lib/constants';
 import { toast, Toaster } from 'sonner';
+import Image from 'next/image';
 
 export default function DriverDashboard() {
   const router = useRouter();
@@ -66,6 +67,16 @@ export default function DriverDashboard() {
       router.push('/driver/login');
     }
   };
+
+  function handleRefresh() {
+    refetchApplication();
+  }
+
+  function toggleArrayItem(a: string[], v: string) {
+    const i = a.indexOf(v);
+    if (i === -1) a.push(v);
+    else a.splice(i, 1);
+  }
 
   const handleProfileUpdate = async () => {
     if (!profileData.fullName?.trim() || !profileData.phoneNumber?.trim()) {
@@ -165,21 +176,6 @@ export default function DriverDashboard() {
       toast.error('Failed to download resume. Please try again later.');
     }
   }
-
-  const getStatusColor = (status?: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'bg-green-100 text-green-800';
-      case 'rejected':
-        return 'bg-red-100 text-red-800';
-      case 'reviewing':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'pending':
-        return 'bg-blue-100 text-blue-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   if (profileLoading || appLoading) {
     return (
@@ -314,9 +310,24 @@ export default function DriverDashboard() {
 
           {/* Application Status Section */}
           <div className='bg-white rounded-lg shadow-lg p-6'>
-            <h2 className='text-2xl font-bold text-gray-900 mb-6'>
-              Application Status
-            </h2>
+            <div className='flex justify-between items-center mb-6'>
+              <h2 className='text-2xl font-bold text-gray-900'>
+                Application Status
+              </h2>
+              <button
+                onClick={handleRefresh}
+                disabled={appLoading}
+                className='text-sm border border-slate-600 disabled:bg-slate-500 text-white p-1.5 rounded cursor-pointer disabled:cursor-not-allowed flex items-center gap-1'
+                title='Refresh applications'
+              >
+                <Image
+                  src='/icons/refresh.png'
+                  alt='Refresh'
+                  width={16}
+                  height={16}
+                />
+              </button>
+            </div>
 
             {application ? (
               <div>
@@ -324,7 +335,7 @@ export default function DriverDashboard() {
                   <p className='text-sm text-gray-600'>Current Status</p>
                   <div className='flex items-center gap-2 mt-2'>
                     <span
-                      className={`px-3 py-1 rounded-full font-semibold text-sm ${getStatusColor(application.status)}`}
+                      className={`px-3 py-1 rounded-full font-semibold text-sm status-${application.status}`}
                     >
                       {application.status?.charAt(0).toUpperCase() +
                         application.status?.slice(1)}
@@ -424,8 +435,10 @@ export default function DriverDashboard() {
                     <label className='block text-sm font-medium text-gray-700 mb-1'>
                       CDL License
                     </label>
-                    <input
-                      type='text'
+                    <select
+                      required
+                      name='cdlLicense'
+                      id='cdl-license'
                       value={applicationData.cdlLicense || ''}
                       onChange={(e) =>
                         setApplicationData({
@@ -433,15 +446,27 @@ export default function DriverDashboard() {
                           cdlLicense: e.target.value,
                         })
                       }
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg'
-                    />
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg cursor-pointer'
+                    >
+                      <option value='' disabled>
+                        Select
+                      </option>
+                      {CDL_CLASSES.map((cdl) => (
+                        <option value={cdl.value} key={cdl.value}>
+                          {cdl.label}
+                        </option>
+                      ))}
+                      <option value='none'>None</option>
+                    </select>
                   </div>
                   <div>
                     <label className='block text-sm font-medium text-gray-700 mb-1'>
                       State
                     </label>
-                    <input
-                      type='text'
+                    <select
+                      required
+                      name='state'
+                      id='state'
                       value={applicationData.state || ''}
                       onChange={(e) =>
                         setApplicationData({
@@ -449,25 +474,210 @@ export default function DriverDashboard() {
                           state: e.target.value,
                         })
                       }
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg'
-                    />
+                      className='w-full px-4 py-2 border border-gray-300 rounded-lg cursor-pointer'
+                    >
+                      <option value='' disabled>
+                        Select
+                      </option>
+                      {US_STATES.map((state) => (
+                        <option value={state} key={state}>
+                          {state}
+                        </option>
+                      ))}
+                      <option value='none'>None</option>
+                    </select>
                   </div>
                   <div>
                     <label className='block text-sm font-medium text-gray-700 mb-1'>
-                      Driving Experience
+                      Types of Trucks Operated
                     </label>
-                    <input
-                      type='text'
-                      value={applicationData.drivingExperience || ''}
-                      onChange={(e) =>
-                        setApplicationData({
-                          ...applicationData,
-                          drivingExperience: e.target.value,
-                        })
-                      }
-                      className='w-full px-4 py-2 border border-gray-300 rounded-lg'
-                    />
+                    <div className='flex items-center gap-2 mb-1'>
+                      <input
+                        type='checkbox'
+                        id='reefer'
+                        checked={
+                          applicationData.truckTypes?.includes('reefer') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'reefer');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='reefer'>Reefer</label>
+                    </div>
+                    <div className='flex items-center gap-2 mb-1'>
+                      <input
+                        type='checkbox'
+                        id='smallTruck'
+                        checked={
+                          applicationData.truckTypes?.includes('smallTruck') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'smallTruck');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='smallTruck'>Small Truck</label>
+                    </div>
+                    <div className='flex items-center gap-2 mb-1'>
+                      <input
+                        type='checkbox'
+                        id='carCarrier'
+                        checked={
+                          applicationData.truckTypes?.includes('carCarrier') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'carCarrier');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='carCarrier'>Car Carrier</label>
+                    </div>
+                    <div className='flex items-center gap-2 mb-1'>
+                      <input
+                        type='checkbox'
+                        id='liveStock'
+                        checked={
+                          applicationData.truckTypes?.includes('liveStock') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'liveStock');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='liveStock'>Live Stock</label>
+                    </div>
+                    <div className='flex items-center gap-2 mb-1'>
+                      <input
+                        type='checkbox'
+                        id='semiTrailer'
+                        checked={
+                          applicationData.truckTypes?.includes('semiTrailer') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'semiTrailer');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='semiTrailer'>Semi-trailer Truck</label>
+                    </div>
+                    <div className='flex items-center gap-2 mb-6'>
+                      <input
+                        type='checkbox'
+                        id='tankTruck'
+                        checked={
+                          applicationData.truckTypes?.includes('tankTruck') ||
+                          false
+                        }
+                        onChange={(e) => {
+                          const updated = [
+                            ...(applicationData.truckTypes || []),
+                          ];
+                          toggleArrayItem(updated, 'tankTruck');
+                          setApplicationData({
+                            ...applicationData,
+                            truckTypes: updated,
+                          });
+                        }}
+                      />
+                      <label htmlFor='tankTruck'>Tank Truck</label>
+                    </div>
                   </div>
+                  <div>
+                    <label className='form-label mb-3'>
+                      Willing to Take Long-Haul Trips
+                    </label>
+                    <div className='flex gap-6 mb-6'>
+                      <div className='flex items-center gap-2'>
+                        <input
+                          required
+                          type='radio'
+                          name='longHaulTrips'
+                          id='trips-yes'
+                          value='yes'
+                          checked={applicationData.longHaulTrips === true}
+                          onChange={() =>
+                            setApplicationData({
+                              ...applicationData,
+                              longHaulTrips: true,
+                            })
+                          }
+                        />
+                        <label htmlFor='trips-yes' className='form-label'>
+                          Yes
+                        </label>
+                      </div>
+                      <div className='flex items-center gap-2'>
+                        <input
+                          type='radio'
+                          name='longHaulTrips'
+                          id='trips-no'
+                          value='no'
+                          checked={applicationData.longHaulTrips === false}
+                          onChange={(e) =>
+                            setApplicationData({
+                              ...applicationData,
+                              longHaulTrips: false,
+                            })
+                          }
+                        />
+                        <label htmlFor='trips-no' className='form-label'>
+                          No
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className='block text-sm font-medium text-gray-700 mb-1'>
+                    Driving Experience
+                  </label>
+                  <textarea
+                    value={applicationData.drivingExperience || ''}
+                    onChange={(e) =>
+                      setApplicationData({
+                        ...applicationData,
+                        drivingExperience: e.target.value,
+                      })
+                    }
+                    className='w-full px-4 py-2 border border-gray-300 rounded-lg'
+                    rows={4}
+                  />
                 </div>
 
                 <div>

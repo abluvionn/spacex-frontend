@@ -15,6 +15,10 @@ export default function AdminLoginPage() {
 
   useEffect(() => {
     if (isSuccess && data) {
+      // Clear any driver data to prevent conflicts
+      localStorage.removeItem('driver-token');
+      localStorage.removeItem('driver');
+
       const token = data.accessToken;
       if (token) {
         localStorage.setItem('token', token);

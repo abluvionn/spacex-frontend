@@ -70,17 +70,25 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    // Get driver ID from localStorage
+
+    // Verify driver token exists and get driver ID from localStorage
+    const driverToken = localStorage.getItem('driver-token');
     const driverData = localStorage.getItem('driver');
-    if (!driverData) {
+
+    if (!driverToken || !driverData) {
       toast.error('Driver information not found. Please login again.');
       return;
     }
-    
+
     const driver = JSON.parse(driverData);
     const driverId = driver._id;
-    
+
+    // Extra validation to ensure we have a valid driver ID
+    if (!driverId || typeof driverId !== 'string') {
+      toast.error('Invalid driver information. Please login again.');
+      return;
+    }
+
     const form = new FormData();
     form.append('fullName', driver.fullName);
     form.append('phoneNumber', driver.phoneNumber);
