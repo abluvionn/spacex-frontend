@@ -12,7 +12,8 @@ export default function ConditionalShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname() || '';
-  const hideShell = pathname.startsWith('/admin');
+  const hideShell =
+    pathname.startsWith('/admin') || pathname.startsWith('/driver');
 
   if (hideShell) return <>{children}</>;
 

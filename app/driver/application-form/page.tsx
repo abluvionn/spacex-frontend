@@ -1,15 +1,14 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { useSubmitApplicationFormMutation } from '@/lib/api';
+import { useDriverCreateApplicationMutation } from '@/lib/api';
 import { toast, Toaster } from 'sonner';
 import { CDL_CLASSES, US_STATES } from '@/lib/constants';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Page = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    phoneNumber: '',
-    email: '',
     cdlLicense: '',
     state: '',
     drivingExperience: '',
@@ -26,7 +25,7 @@ const Page = () => {
   });
   const [resume, setResume] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [submitForm, { isLoading }] = useSubmitApplicationFormMutation();
+  const [submitForm, { isLoading }] = useDriverCreateApplicationMutation();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -71,16 +70,28 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Get driver ID from localStorage
+    const driverData = localStorage.getItem('driver');
+    if (!driverData) {
+      toast.error('Driver information not found. Please login again.');
+      return;
+    }
+    
+    const driver = JSON.parse(driverData);
+    const driverId = driver._id;
+    
     const form = new FormData();
-    form.append('fullName', formData.fullName);
-    form.append('phoneNumber', formData.phoneNumber);
-    form.append('email', formData.email);
+    form.append('fullName', driver.fullName);
+    form.append('phoneNumber', driver.phoneNumber);
+    form.append('email', driver.email);
     form.append('cdlLicense', formData.cdlLicense);
     form.append('state', formData.state);
     form.append('drivingExperience', formData.drivingExperience);
     form.append('truckTypes', JSON.stringify(formData.truckTypes));
     form.append('longHaulTrips', JSON.stringify(formData.longHaulTrips));
     form.append('comments', formData.comments);
+    form.append('driverId', driverId);
     if (resume) {
       form.append('resume', resume);
     }
@@ -88,9 +99,6 @@ const Page = () => {
       await submitForm(form).unwrap();
       toast.success('Application submitted successfully!');
       setFormData({
-        fullName: '',
-        phoneNumber: '',
-        email: '',
         cdlLicense: '',
         state: '',
         drivingExperience: '',
@@ -128,6 +136,19 @@ const Page = () => {
         richColors
         toastOptions={{ className: '!text-base' }}
       />
+      <Link
+        href={'/driver/dashboard'}
+        className='font-poppins mb-4 text-blue-600 flex items-center gap-1'
+      >
+        <Image
+          src='/icons/arrow-right-blue.svg'
+          height={10}
+          width={12}
+          className='rotate-180'
+          alt='arrow right icon'
+        />
+        <span>Return to dashboard</span>
+      </Link>
       <h1 className='font-poppins font-bold text-2xl lg:text-4xl text-[#383C3E]'>
         Application form
       </h1>
@@ -135,33 +156,6 @@ const Page = () => {
         Complete the Form to join our driving team!
       </p>
       <form onSubmit={handleSubmit} className='flex flex-col pb-[50px]'>
-        <input
-          required
-          name='fullName'
-          type='text'
-          placeholder='Full Name *'
-          value={formData.fullName}
-          onChange={handleInputChange}
-          className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
-        />
-        <input
-          required
-          name='phoneNumber'
-          type='tel'
-          placeholder='Phone Number *'
-          value={formData.phoneNumber}
-          onChange={handleInputChange}
-          className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
-        />
-        <input
-          required
-          name='email'
-          type='email'
-          placeholder='E-mail *'
-          value={formData.email}
-          onChange={handleInputChange}
-          className='pt-3 px-3 border-b border-[#737B7D] form-input mb-6'
-        />
         <label htmlFor='cdl-license' className='form-label mb-3'>
           CDL License: *
         </label>

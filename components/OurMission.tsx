@@ -22,7 +22,7 @@ const OurMission = () => {
         </p>
         <div className='flex flex-wrap gap-3'>
           <Link
-            href='/application-form'
+            href='/driver/signup'
             className='btn-base py-3 px-7 uppercase text-xs lg:text-[20px] lg:py-4 lg:px-9 lg:rounded-lg'
           >
             Join

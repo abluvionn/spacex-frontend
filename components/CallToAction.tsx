@@ -7,7 +7,7 @@ const CallToAction = () => {
         Interested in joining SpaceX? Click join to get started.
       </h2>
       <Link
-        href='/application-form'
+        href='/driver/signup'
         className='btn-base uppercase rounded lg:rounded-[10px] py-3 px-6 lg:py-5 lg:px-11 lg:font-bold text-sm lg:text-xl inline-block'
       >
         join

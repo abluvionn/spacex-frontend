@@ -30,7 +30,7 @@ const DriverOpportunitiesBanner = () => {
           Contact Us
         </Link>
         <Link
-          href='/application-form'
+          href='/driver/signup'
           className='font-poppins text-black bg-white rounded-md px-6 py-[14px] uppercase text-xs font-semibold hover:bg-white/90 active:bg-white/80 transition lg:text-xl lg:px-9 lg:py-6'
         >
           Full Application

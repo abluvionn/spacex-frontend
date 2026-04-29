@@ -14,35 +14,38 @@ import type {
   RegisterRequest,
   Admin,
   AppStatus,
+  DriverRegisterRequest,
+  DriverLoginRequest,
+  DriverLoginResponse,
+  Driver,
+  DriverApplication,
 } from '@/lib/types';
 import { API_BASE_URL } from './constants';
 
-// Flag to prevent multiple refresh requests
-let isRefreshing = false;
-let refreshPromise: Promise<string | null> | null = null;
+// Admin token refresh
+let isRefreshingAdmin = false;
+let adminRefreshPromise: Promise<string | null> | null = null;
 
-const refreshToken = async (): Promise<string | null> => {
-  // Prevent multiple simultaneous refresh requests
-  if (isRefreshing && refreshPromise) {
-    return refreshPromise;
+const refreshAdminToken = async (): Promise<string | null> => {
+  if (isRefreshingAdmin && adminRefreshPromise) {
+    return adminRefreshPromise;
   }
 
-  isRefreshing = true;
-  refreshPromise = (async () => {
+  isRefreshingAdmin = true;
+  adminRefreshPromise = (async () => {
     try {
       const response = await fetch(`${API_BASE_URL}auth/refresh-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // Send cookies with the request
+        credentials: 'include',
       });
 
       if (!response.ok) {
-        // Refresh failed, clear storage and redirect to login
         localStorage.removeItem('token');
         localStorage.removeItem('admin');
-        if (window.location.href !== '/admin/login') {
+        if (typeof window !== 'undefined' && window.location.href !== '/admin/login') {
           window.location.href = '/admin/login';
         }
         return null;
@@ -50,26 +53,81 @@ const refreshToken = async (): Promise<string | null> => {
 
       const data = (await response.json()) as { accessToken: string };
       const newToken = data.accessToken;
-
-      // Update token in localStorage
       localStorage.setItem('token', newToken);
-
       return newToken;
     } catch (error) {
       console.error('Token refresh failed:', error);
       localStorage.removeItem('token');
       localStorage.removeItem('admin');
-      if (window.location.href !== '/admin/login') {
+      if (typeof window !== 'undefined' && window.location.href !== '/admin/login') {
         window.location.href = '/admin/login';
       }
       return null;
     } finally {
-      isRefreshing = false;
-      refreshPromise = null;
+      isRefreshingAdmin = false;
+      adminRefreshPromise = null;
     }
   })();
 
-  return refreshPromise;
+  return adminRefreshPromise;
+};
+
+// Driver token refresh
+let isRefreshingDriver = false;
+let driverRefreshPromise: Promise<string | null> | null = null;
+
+const refreshDriverToken = async (): Promise<string | null> => {
+  if (isRefreshingDriver && driverRefreshPromise) {
+    return driverRefreshPromise;
+  }
+
+  isRefreshingDriver = true;
+  driverRefreshPromise = (async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}driver/auth/refresh-token`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        localStorage.removeItem('driver-token');
+        localStorage.removeItem('driver');
+        if (typeof window !== 'undefined' && window.location.href !== '/driver/login') {
+          window.location.href = '/driver/login';
+        }
+        return null;
+      }
+
+      const data = (await response.json()) as { accessToken: string };
+      const newToken = data.accessToken;
+      localStorage.setItem('driver-token', newToken);
+      return newToken;
+    } catch (error) {
+      console.error('Driver token refresh failed:', error);
+      localStorage.removeItem('driver-token');
+      localStorage.removeItem('driver');
+      if (typeof window !== 'undefined' && window.location.href !== '/driver/login') {
+        window.location.href = '/driver/login';
+      }
+      return null;
+    } finally {
+      isRefreshingDriver = false;
+      driverRefreshPromise = null;
+    }
+  })();
+
+  return driverRefreshPromise;
+};
+
+// Detect which token to use based on current request
+const getTokenFromStorage = (url: string): { token: string | null; type: 'admin' | 'driver' } => {
+  if (url.includes('/driver/')) {
+    return { token: localStorage.getItem('driver-token'), type: 'driver' };
+  }
+  return { token: localStorage.getItem('token'), type: 'admin' };
 };
 
 const baseQueryWithTokenRefresh: BaseQueryFn<
@@ -79,11 +137,11 @@ const baseQueryWithTokenRefresh: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   const baseQuery = fetchBaseQuery({
     baseUrl: API_BASE_URL,
-    credentials: 'include', // Include cookies in requests
+    credentials: 'include',
     prepareHeaders: (headers) => {
-      // Add bearer token from localStorage when available
       if (typeof window !== 'undefined') {
-        const token = localStorage.getItem('token');
+        const url = typeof args === 'string' ? args : (args as FetchArgs).url || '';
+        const { token } = getTokenFromStorage(url);
         if (token) headers.set('authorization', `Bearer ${token}`);
       }
       return headers;
@@ -92,12 +150,13 @@ const baseQueryWithTokenRefresh: BaseQueryFn<
 
   let result = await baseQuery(args, api, extraOptions);
 
-  // If we get a 401, try to refresh the token
   if ((result.error as FetchBaseQueryError)?.status === 401) {
-    const newToken = await refreshToken();
+    const url = typeof args === 'string' ? args : (args as FetchArgs).url || '';
+    const { type } = getTokenFromStorage(url);
+
+    const newToken = type === 'driver' ? await refreshDriverToken() : await refreshAdminToken();
 
     if (newToken) {
-      // Retry the original request with the new token
       result = await baseQuery(args, api, extraOptions);
     }
   }
@@ -109,6 +168,7 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithTokenRefresh,
   endpoints: (builder) => ({
+    // Admin endpoints
     login: builder.mutation<LoginResponse, LoginRequest>({
       query: (body) => ({
         url: 'auth/login',
@@ -175,10 +235,75 @@ export const api = createApi({
         method: 'POST',
       }),
     }),
+
+    // Driver endpoints
+    driverRegister: builder.mutation<Driver, DriverRegisterRequest>({
+      query: (body) => ({
+        url: 'driver/auth/register',
+        method: 'POST',
+        body,
+      }),
+    }),
+    driverLogin: builder.mutation<DriverLoginResponse, DriverLoginRequest>({
+      query: (body) => ({
+        url: 'driver/auth/login',
+        method: 'POST',
+        body,
+      }),
+    }),
+    driverGetProfile: builder.query<Driver, void>({
+      query: () => ({
+        url: 'driver/auth/profile',
+        method: 'GET',
+      }),
+    }),
+    driverUpdateProfile: builder.mutation<Driver, Partial<Driver>>({
+      query: (body) => ({
+        url: 'driver/auth/profile',
+        method: 'PUT',
+        body,
+      }),
+    }),
+    driverCreateApplication: builder.mutation<DriverApplication, FormData>({
+      query: (formData) => ({
+        url: 'driver/applications',
+        method: 'POST',
+        body: formData,
+      }),
+    }),
+    driverGetApplication: builder.query<DriverApplication, void>({
+      query: () => ({
+        url: 'driver/applications',
+        method: 'GET',
+      }),
+    }),
+    driverUpdateApplication: builder.mutation<
+      DriverApplication,
+      Partial<DriverApplication>
+    >({
+      query: (body) => ({
+        url: 'driver/applications',
+        method: 'PUT',
+        body,
+      }),
+    }),
+    driverGetApplicationStatus: builder.query<{ status: AppStatus }, void>({
+      query: () => ({
+        url: 'driver/applications/status',
+        method: 'GET',
+      }),
+    }),
+    driverLogout: builder.mutation<LogoutResponse, void>({
+      query: () => ({
+        url: 'driver/auth/logout',
+        method: 'POST',
+      }),
+    }),
   }),
 });
 
 export const {
+  // Admin hooks
   useLoginMutation,
   useRegisterMutation,
   useSubmitApplicationFormMutation,
@@ -187,4 +312,15 @@ export const {
   useLazyGetAllApplicationsQuery,
   useUpdateApplicationStatusMutation,
   useLogoutMutation,
+  // Driver hooks
+  useDriverRegisterMutation,
+  useDriverLoginMutation,
+  useDriverGetProfileQuery,
+  useDriverUpdateProfileMutation,
+  useDriverCreateApplicationMutation,
+  useDriverGetApplicationQuery,
+  useDriverUpdateApplicationMutation,
+  useDriverGetApplicationStatusQuery,
+  useDriverLogoutMutation,
 } = api;
+

@@ -73,3 +73,45 @@ export interface GetApplicationsResponse {
 export interface LogoutResponse {
   message: string;
 }
+
+// ===== DRIVER TYPES =====
+
+export interface Driver {
+  _id: string;
+  email: string;
+  fullName: string;
+  phoneNumber: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DriverRegisterRequest {
+  email: string;
+  password: string;
+  fullName: string;
+  phoneNumber: string;
+}
+
+export interface DriverLoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface DriverLoginResponse {
+  accessToken: string;
+  driver: Driver;
+}
+
+export interface DriverApplication extends Application {
+  driverId: string;
+}
+
+export interface DriverProfile {
+  driver: Driver;
+}
+
+export interface DriverError extends GlobalError {
+  data: {
+    error: string;
+  };
+}
