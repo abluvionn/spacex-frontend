@@ -48,7 +48,10 @@ const refreshAdminToken = async (): Promise<string | null> => {
       if (!response.ok) {
         localStorage.removeItem('token');
         localStorage.removeItem('admin');
-        if (typeof window !== 'undefined' && window.location.href !== '/admin/login') {
+        if (
+          typeof window !== 'undefined' &&
+          window.location.href !== '/admin/login'
+        ) {
           window.location.href = '/admin/login';
         }
         return null;
@@ -62,7 +65,10 @@ const refreshAdminToken = async (): Promise<string | null> => {
       console.error('Token refresh failed:', error);
       localStorage.removeItem('token');
       localStorage.removeItem('admin');
-      if (typeof window !== 'undefined' && window.location.href !== '/admin/login') {
+      if (
+        typeof window !== 'undefined' &&
+        window.location.href !== '/admin/login'
+      ) {
         window.location.href = '/admin/login';
       }
       return null;
@@ -98,7 +104,10 @@ const refreshDriverToken = async (): Promise<string | null> => {
       if (!response.ok) {
         localStorage.removeItem('driver-token');
         localStorage.removeItem('driver');
-        if (typeof window !== 'undefined' && window.location.href !== '/driver/login') {
+        if (
+          typeof window !== 'undefined' &&
+          window.location.href !== '/driver/login'
+        ) {
           window.location.href = '/driver/login';
         }
         return null;
@@ -112,7 +121,10 @@ const refreshDriverToken = async (): Promise<string | null> => {
       console.error('Driver token refresh failed:', error);
       localStorage.removeItem('driver-token');
       localStorage.removeItem('driver');
-      if (typeof window !== 'undefined' && window.location.href !== '/driver/login') {
+      if (
+        typeof window !== 'undefined' &&
+        window.location.href !== '/driver/login'
+      ) {
         window.location.href = '/driver/login';
       }
       return null;
@@ -126,7 +138,9 @@ const refreshDriverToken = async (): Promise<string | null> => {
 };
 
 // Detect which token to use based on current request
-const getTokenFromStorage = (url: string): { token: string | null; type: 'admin' | 'driver' } => {
+const getTokenFromStorage = (
+  url: string,
+): { token: string | null; type: 'admin' | 'driver' } => {
   if (url.includes('/driver/')) {
     return { token: localStorage.getItem('driver-token'), type: 'driver' };
   }
@@ -143,7 +157,8 @@ const baseQueryWithTokenRefresh: BaseQueryFn<
     credentials: 'include',
     prepareHeaders: (headers) => {
       if (typeof window !== 'undefined') {
-        const url = typeof args === 'string' ? args : (args as FetchArgs).url || '';
+        const url =
+          typeof args === 'string' ? args : (args as FetchArgs).url || '';
         const { token } = getTokenFromStorage(url);
         if (token) headers.set('authorization', `Bearer ${token}`);
       }
@@ -157,7 +172,10 @@ const baseQueryWithTokenRefresh: BaseQueryFn<
     const url = typeof args === 'string' ? args : (args as FetchArgs).url || '';
     const { type } = getTokenFromStorage(url);
 
-    const newToken = type === 'driver' ? await refreshDriverToken() : await refreshAdminToken();
+    const newToken =
+      type === 'driver'
+        ? await refreshDriverToken()
+        : await refreshAdminToken();
 
     if (newToken) {
       result = await baseQuery(args, api, extraOptions);
@@ -289,13 +307,19 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
-    driverGetKnowledgeTestQuestions: builder.query<KnowledgeTestQuestion[], void>({
+    driverGetKnowledgeTestQuestions: builder.query<
+      KnowledgeTestQuestion[],
+      void
+    >({
       query: () => ({
         url: 'driver/knowledge-test/questions',
         method: 'GET',
       }),
     }),
-    driverSubmitKnowledgeTest: builder.mutation<KnowledgeTestResult, KnowledgeTestSubmitRequest>({
+    driverSubmitKnowledgeTest: builder.mutation<
+      KnowledgeTestResult,
+      KnowledgeTestSubmitRequest
+    >({
       query: (body) => ({
         url: 'driver/knowledge-test/submit',
         method: 'POST',
@@ -333,4 +357,3 @@ export const {
   useDriverSubmitKnowledgeTestMutation,
   useDriverLogoutMutation,
 } = api;
-

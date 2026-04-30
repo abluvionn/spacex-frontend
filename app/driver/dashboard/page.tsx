@@ -367,30 +367,56 @@ export default function DriverDashboard() {
 
         {/* Knowledge Test Section */}
         <div className='mt-8 bg-white rounded-lg shadow-lg p-6'>
-          <h2 className='text-2xl font-bold text-gray-900 mb-6'>Knowledge Test</h2>
+          <h2 className='text-2xl font-bold text-gray-900 mb-6'>
+            Knowledge Test
+          </h2>
           {profile?.knowledgeTestPassed ? (
             <div className='text-center py-4'>
               <div className='flex items-center justify-center gap-2 mb-2'>
                 <div className='w-6 h-6 bg-green-100 rounded-full flex items-center justify-center'>
-                  <svg className='w-4 h-4 text-green-600' fill='currentColor' viewBox='0 0 20 20'>
-                    <path fillRule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clipRule='evenodd' />
+                  <svg
+                    className='w-4 h-4 text-green-600'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </div>
-                <span className='text-green-600 font-semibold'>Test Passed</span>
+                <span className='text-green-600 font-semibold'>
+                  Test Passed
+                </span>
               </div>
-              <p className='text-sm text-gray-600'>You can now create an application.</p>
+              <p className='text-sm text-gray-600'>
+                You can now create an application.
+              </p>
             </div>
           ) : (
             <div className='text-center py-4'>
               <div className='flex items-center justify-center gap-2 mb-2'>
                 <div className='w-6 h-6 bg-red-100 rounded-full flex items-center justify-center'>
-                  <svg className='w-4 h-4 text-red-600' fill='currentColor' viewBox='0 0 20 20'>
-                    <path fillRule='evenodd' d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z' clipRule='evenodd' />
+                  <svg
+                    className='w-4 h-4 text-red-600'
+                    fill='currentColor'
+                    viewBox='0 0 20 20'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                      clipRule='evenodd'
+                    />
                   </svg>
                 </div>
-                <span className='text-red-600 font-semibold'>Test Not Taken</span>
+                <span className='text-red-600 font-semibold'>
+                  Test Not Taken
+                </span>
               </div>
-              <p className='text-sm text-gray-600 mb-4'>You must pass the knowledge test to create an application.</p>
+              <p className='text-sm text-gray-600 mb-4'>
+                You must pass the knowledge test to create an application.
+              </p>
               <a
                 href='/driver/knowledge-test'
                 className='inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition'

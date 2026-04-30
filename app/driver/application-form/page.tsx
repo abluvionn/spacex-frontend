@@ -27,7 +27,8 @@ const Page = () => {
   const [resume, setResume] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [submitForm, { isLoading }] = useDriverCreateApplicationMutation();
-  const { data: profile, isLoading: profileLoading } = useDriverGetProfileQuery();
+  const { data: profile, isLoading: profileLoading } =
+    useDriverGetProfileQuery();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -75,7 +76,9 @@ const Page = () => {
 
     // Check if driver has passed the knowledge test
     if (!profile?.knowledgeTestPassed) {
-      toast.error('You must pass the knowledge test before creating an application.');
+      toast.error(
+        'You must pass the knowledge test before creating an application.',
+      );
       return;
     }
 
@@ -177,7 +180,8 @@ const Page = () => {
             Knowledge Test Required
           </h1>
           <p className='font-poppins text-[#737B7D] text-sm lg:text-base mb-6'>
-            You must pass the driver knowledge test before you can create an application.
+            You must pass the driver knowledge test before you can create an
+            application.
           </p>
           <Link
             href='/driver/knowledge-test'
@@ -187,206 +191,206 @@ const Page = () => {
           </Link>
         </div>
       ) : (
-      <form onSubmit={handleSubmit} className='flex flex-col pb-[50px]'>
-        <label htmlFor='cdl-license' className='form-label mb-3'>
-          CDL License: *
-        </label>
-        <select
-          required
-          name='cdlLicense'
-          id='cdl-license'
-          value={formData.cdlLicense}
-          onChange={handleInputChange}
-          className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
-        >
-          <option value='' disabled>
-            Select
-          </option>
-          {CDL_CLASSES.map((cdl) => (
-            <option value={cdl.value} key={cdl.value}>
-              {cdl.label}
-            </option>
-          ))}
-          <option value='none'>None</option>
-        </select>
-        <label htmlFor='state' className='form-label mb-3'>
-          State *
-        </label>
-        <select
-          required
-          name='state'
-          id='state'
-          value={formData.state}
-          onChange={handleInputChange}
-          className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
-        >
-          <option value='' disabled>
-            Select
-          </option>
-          {US_STATES.map((state) => (
-            <option value={state} key={state}>
-              {state}
-            </option>
-          ))}
-          <option value='none'>None</option>
-        </select>
-        <label htmlFor='driving-experience' className='form-label mb-3'>
-          Driving Experience *
-        </label>
-        <textarea
-          required
-          name='drivingExperience'
-          id='driving-experience'
-          value={formData.drivingExperience}
-          onChange={handleInputChange}
-          className='border border-[#737B7D] mb-6 rounded p-3'
-        ></textarea>
-        <label className='form-label mb-3'>Types of Trucks Operated</label>
-        <div className='flex items-center gap-2 mb-1'>
-          <input
-            type='checkbox'
-            id='truck-reefer'
-            checked={formData.truckTypes.reefer}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-reefer' className='form-label'>
-            Reefer
+        <form onSubmit={handleSubmit} className='flex flex-col pb-[50px]'>
+          <label htmlFor='cdl-license' className='form-label mb-3'>
+            CDL License: *
           </label>
-        </div>
-        <div className='flex items-center gap-2 mb-1'>
-          <input
-            type='checkbox'
-            id='truck-smallTruck'
-            checked={formData.truckTypes.smallTruck}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-smallTruck' className='form-label'>
-            Small Truck
-          </label>
-        </div>
-        <div className='flex items-center gap-2 mb-1'>
-          <input
-            type='checkbox'
-            id='truck-carCarrier'
-            checked={formData.truckTypes.carCarrier}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-carCarrier' className='form-label'>
-            Car Carrier
-          </label>
-        </div>
-        <div className='flex items-center gap-2 mb-1'>
-          <input
-            type='checkbox'
-            id='truck-liveStock'
-            checked={formData.truckTypes.liveStock}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-liveStock' className='form-label'>
-            Live Stock
-          </label>
-        </div>
-        <div className='flex items-center gap-2 mb-1'>
-          <input
-            type='checkbox'
-            id='truck-semiTrailer'
-            checked={formData.truckTypes.semiTrailer}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-semiTrailer' className='form-label'>
-            Semi-trailer Truck
-          </label>
-        </div>
-        <div className='flex items-center gap-2 mb-6'>
-          <input
-            type='checkbox'
-            id='truck-tankTruck'
-            checked={formData.truckTypes.tankTruck}
-            onChange={handleCheckboxChange}
-          />
-          <label htmlFor='truck-tankTruck' className='form-label'>
-            Tank Truck
-          </label>
-        </div>
-        <label className='form-label mb-3'>
-          Willing to Take Long-Haul Trips
-        </label>
-        <div className='flex gap-6 mb-6'>
-          <div className='flex items-center gap-2'>
-            <input
-              required
-              type='radio'
-              name='longHaulTrips'
-              id='trips-yes'
-              value='yes'
-              checked={formData.longHaulTrips === true}
-              onChange={handleInputChange}
-            />
-            <label htmlFor='trips-yes' className='form-label'>
-              Yes
-            </label>
-          </div>
-          <div className='flex items-center gap-2'>
-            <input
-              type='radio'
-              name='longHaulTrips'
-              id='trips-no'
-              value='no'
-              checked={formData.longHaulTrips === false}
-              onChange={handleInputChange}
-            />
-            <label htmlFor='trips-no' className='form-label'>
-              No
-            </label>
-          </div>
-        </div>
-        <textarea
-          name='comments'
-          id='comments'
-          placeholder='Comments / Additional information'
-          value={formData.comments}
-          onChange={handleInputChange}
-          className='form-comments p-3 border border-[#737B7D] rounded mb-6'
-        ></textarea>
-        {!resume && (
-          <label
-            htmlFor='resume'
-            className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm lg:text-base'
+          <select
+            required
+            name='cdlLicense'
+            id='cdl-license'
+            value={formData.cdlLicense}
+            onChange={handleInputChange}
+            className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
           >
-            Upload Resume
+            <option value='' disabled>
+              Select
+            </option>
+            {CDL_CLASSES.map((cdl) => (
+              <option value={cdl.value} key={cdl.value}>
+                {cdl.label}
+              </option>
+            ))}
+            <option value='none'>None</option>
+          </select>
+          <label htmlFor='state' className='form-label mb-3'>
+            State *
           </label>
-        )}
-        {resume && (
-          <div className='flex items-center gap-2 mt-2 font-inter'>
-            <p className='text-sm'>Selected file: {resume.name}</p>
-            <button
-              type='button'
-              onClick={handleClearFile}
-              className='text-accent text-sm underline cursor-pointer'
-            >
-              Clear
-            </button>
+          <select
+            required
+            name='state'
+            id='state'
+            value={formData.state}
+            onChange={handleInputChange}
+            className='form-label bg-[#EBEBEB] px-3 py-2 rounded mb-6 cursor-pointer'
+          >
+            <option value='' disabled>
+              Select
+            </option>
+            {US_STATES.map((state) => (
+              <option value={state} key={state}>
+                {state}
+              </option>
+            ))}
+            <option value='none'>None</option>
+          </select>
+          <label htmlFor='driving-experience' className='form-label mb-3'>
+            Driving Experience *
+          </label>
+          <textarea
+            required
+            name='drivingExperience'
+            id='driving-experience'
+            value={formData.drivingExperience}
+            onChange={handleInputChange}
+            className='border border-[#737B7D] mb-6 rounded p-3'
+          ></textarea>
+          <label className='form-label mb-3'>Types of Trucks Operated</label>
+          <div className='flex items-center gap-2 mb-1'>
+            <input
+              type='checkbox'
+              id='truck-reefer'
+              checked={formData.truckTypes.reefer}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-reefer' className='form-label'>
+              Reefer
+            </label>
           </div>
-        )}
-        <p className='font-inter text-[#8E8E8E] text-xs mt-3 mb-10 lg:text-sm'>
-          Attach file. File size of your documents should not exceed 10MB
-        </p>
-        <input
-          type='file'
-          name='resume'
-          id='resume'
-          hidden
-          ref={fileInputRef}
-          onChange={handleFileChange}
-        />
-        <button
-          type='submit'
-          disabled={isLoading}
-          className='bg-accent p-4 text-white uppercase tracking-wider font-inter font-medium text-sm cursor-pointer hover:bg-accent/95 active:bg-accent/90 lg:text-base disabled:bg-accent/50 disabled:cursor-not-allowed'
-        >
-          {isLoading ? 'Submitting...' : 'Submit'}
-        </button>
-      </form>
+          <div className='flex items-center gap-2 mb-1'>
+            <input
+              type='checkbox'
+              id='truck-smallTruck'
+              checked={formData.truckTypes.smallTruck}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-smallTruck' className='form-label'>
+              Small Truck
+            </label>
+          </div>
+          <div className='flex items-center gap-2 mb-1'>
+            <input
+              type='checkbox'
+              id='truck-carCarrier'
+              checked={formData.truckTypes.carCarrier}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-carCarrier' className='form-label'>
+              Car Carrier
+            </label>
+          </div>
+          <div className='flex items-center gap-2 mb-1'>
+            <input
+              type='checkbox'
+              id='truck-liveStock'
+              checked={formData.truckTypes.liveStock}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-liveStock' className='form-label'>
+              Live Stock
+            </label>
+          </div>
+          <div className='flex items-center gap-2 mb-1'>
+            <input
+              type='checkbox'
+              id='truck-semiTrailer'
+              checked={formData.truckTypes.semiTrailer}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-semiTrailer' className='form-label'>
+              Semi-trailer Truck
+            </label>
+          </div>
+          <div className='flex items-center gap-2 mb-6'>
+            <input
+              type='checkbox'
+              id='truck-tankTruck'
+              checked={formData.truckTypes.tankTruck}
+              onChange={handleCheckboxChange}
+            />
+            <label htmlFor='truck-tankTruck' className='form-label'>
+              Tank Truck
+            </label>
+          </div>
+          <label className='form-label mb-3'>
+            Willing to Take Long-Haul Trips
+          </label>
+          <div className='flex gap-6 mb-6'>
+            <div className='flex items-center gap-2'>
+              <input
+                required
+                type='radio'
+                name='longHaulTrips'
+                id='trips-yes'
+                value='yes'
+                checked={formData.longHaulTrips === true}
+                onChange={handleInputChange}
+              />
+              <label htmlFor='trips-yes' className='form-label'>
+                Yes
+              </label>
+            </div>
+            <div className='flex items-center gap-2'>
+              <input
+                type='radio'
+                name='longHaulTrips'
+                id='trips-no'
+                value='no'
+                checked={formData.longHaulTrips === false}
+                onChange={handleInputChange}
+              />
+              <label htmlFor='trips-no' className='form-label'>
+                No
+              </label>
+            </div>
+          </div>
+          <textarea
+            name='comments'
+            id='comments'
+            placeholder='Comments / Additional information'
+            value={formData.comments}
+            onChange={handleInputChange}
+            className='form-comments p-3 border border-[#737B7D] rounded mb-6'
+          ></textarea>
+          {!resume && (
+            <label
+              htmlFor='resume'
+              className='p-[40px] text-center border border-[#8E8E8E] border-dashed cursor-pointer text-[#8E8E8E] text-sm lg:text-base'
+            >
+              Upload Resume
+            </label>
+          )}
+          {resume && (
+            <div className='flex items-center gap-2 mt-2 font-inter'>
+              <p className='text-sm'>Selected file: {resume.name}</p>
+              <button
+                type='button'
+                onClick={handleClearFile}
+                className='text-accent text-sm underline cursor-pointer'
+              >
+                Clear
+              </button>
+            </div>
+          )}
+          <p className='font-inter text-[#8E8E8E] text-xs mt-3 mb-10 lg:text-sm'>
+            Attach file. File size of your documents should not exceed 10MB
+          </p>
+          <input
+            type='file'
+            name='resume'
+            id='resume'
+            hidden
+            ref={fileInputRef}
+            onChange={handleFileChange}
+          />
+          <button
+            type='submit'
+            disabled={isLoading}
+            className='bg-accent p-4 text-white uppercase tracking-wider font-inter font-medium text-sm cursor-pointer hover:bg-accent/95 active:bg-accent/90 lg:text-base disabled:bg-accent/50 disabled:cursor-not-allowed'
+          >
+            {isLoading ? 'Submitting...' : 'Submit'}
+          </button>
+        </form>
       )}
     </section>
   );
