@@ -19,6 +19,9 @@ import type {
   DriverLoginResponse,
   Driver,
   DriverApplication,
+  KnowledgeTestQuestion,
+  KnowledgeTestSubmitRequest,
+  KnowledgeTestResult,
 } from '@/lib/types';
 import { API_BASE_URL } from './constants';
 
@@ -286,6 +289,19 @@ export const api = createApi({
         method: 'GET',
       }),
     }),
+    driverGetKnowledgeTestQuestions: builder.query<KnowledgeTestQuestion[], void>({
+      query: () => ({
+        url: 'driver/knowledge-test/questions',
+        method: 'GET',
+      }),
+    }),
+    driverSubmitKnowledgeTest: builder.mutation<KnowledgeTestResult, KnowledgeTestSubmitRequest>({
+      query: (body) => ({
+        url: 'driver/knowledge-test/submit',
+        method: 'POST',
+        body,
+      }),
+    }),
     driverLogout: builder.mutation<LogoutResponse, void>({
       query: () => ({
         url: 'driver/auth/logout',
@@ -313,6 +329,8 @@ export const {
   useDriverGetApplicationQuery,
   useDriverUpdateApplicationMutation,
   useDriverGetApplicationStatusQuery,
+  useDriverGetKnowledgeTestQuestionsQuery,
+  useDriverSubmitKnowledgeTestMutation,
   useDriverLogoutMutation,
 } = api;
 

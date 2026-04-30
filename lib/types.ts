@@ -83,6 +83,7 @@ export interface Driver {
   phoneNumber: string;
   createdAt: string;
   updatedAt: string;
+  knowledgeTestPassed?: boolean;
 }
 
 export interface DriverRegisterRequest {
@@ -114,4 +115,31 @@ export interface DriverError extends GlobalError {
   data: {
     error: string;
   };
+}
+
+export interface KnowledgeTestQuestion {
+  id: number;
+  question: string;
+  options: {
+    A: string;
+    B: string;
+    C: string;
+    D: string;
+  };
+}
+
+export interface KnowledgeTestSubmitRequest {
+  answers: Record<number, string>;
+}
+
+export interface KnowledgeTestResult {
+  totalQuestions: number;
+  correctCount: number;
+  passed: boolean;
+  results: {
+    questionId: number;
+    userAnswer: string;
+    correctAnswer: string;
+    isCorrect: boolean;
+  }[];
 }

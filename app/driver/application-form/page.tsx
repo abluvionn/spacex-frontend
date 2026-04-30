@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useDriverCreateApplicationMutation } from '@/lib/api';
+import { useDriverGetProfileQuery } from '@/lib/api';
 import { toast, Toaster } from 'sonner';
 import { CDL_CLASSES, US_STATES } from '@/lib/constants';
 import Link from 'next/link';
@@ -26,6 +27,7 @@ const Page = () => {
   const [resume, setResume] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [submitForm, { isLoading }] = useDriverCreateApplicationMutation();
+  const { data: profile, isLoading: profileLoading } = useDriverGetProfileQuery();
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -70,6 +72,12 @@ const Page = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Check if driver has passed the knowledge test
+    if (!profile?.knowledgeTestPassed) {
+      toast.error('You must pass the knowledge test before creating an application.');
+      return;
+    }
 
     // Verify driver token exists and get driver ID from localStorage
     const driverToken = localStorage.getItem('driver-token');
@@ -157,12 +165,28 @@ const Page = () => {
         />
         <span>Return to dashboard</span>
       </Link>
-      <h1 className='font-poppins font-bold text-2xl lg:text-4xl text-[#383C3E]'>
-        Application form
-      </h1>
-      <p className='font-poppins text-[#737B7D] text-sm lg:text-base mt-4 mb-10'>
-        Complete the Form to join our driving team!
-      </p>
+
+      {profileLoading ? (
+        <div className='text-center py-8'>
+          <div className='animate-spin rounded-full h-12 w-12 border-4 border-gray-300 border-t-blue-600 mx-auto mb-4'></div>
+          <p>Loading...</p>
+        </div>
+      ) : !profile?.knowledgeTestPassed ? (
+        <div className='text-center py-8'>
+          <h1 className='font-poppins font-bold text-2xl lg:text-4xl text-[#383C3E] mb-4'>
+            Knowledge Test Required
+          </h1>
+          <p className='font-poppins text-[#737B7D] text-sm lg:text-base mb-6'>
+            You must pass the driver knowledge test before you can create an application.
+          </p>
+          <Link
+            href='/driver/knowledge-test'
+            className='inline-block bg-accent p-4 text-white uppercase tracking-wider font-inter font-medium text-sm cursor-pointer hover:bg-accent/95 active:bg-accent/90 lg:text-base'
+          >
+            Take Knowledge Test
+          </Link>
+        </div>
+      ) : (
       <form onSubmit={handleSubmit} className='flex flex-col pb-[50px]'>
         <label htmlFor='cdl-license' className='form-label mb-3'>
           CDL License: *
@@ -363,6 +387,7 @@ const Page = () => {
           {isLoading ? 'Submitting...' : 'Submit'}
         </button>
       </form>
+      )}
     </section>
   );
 };
