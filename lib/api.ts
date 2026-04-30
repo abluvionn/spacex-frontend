@@ -141,7 +141,7 @@ const refreshDriverToken = async (): Promise<string | null> => {
 const getTokenFromStorage = (
   url: string,
 ): { token: string | null; type: 'admin' | 'driver' } => {
-  if (url.includes('/driver/')) {
+  if (url.includes('driver/')) {
     return { token: localStorage.getItem('driver-token'), type: 'driver' };
   }
   return { token: localStorage.getItem('token'), type: 'admin' };
